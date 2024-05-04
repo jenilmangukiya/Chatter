@@ -1,6 +1,7 @@
 import { Box, Stack } from "@mui/material";
 import React from "react";
 import { Sidebar } from "./components";
+import { ChatSearch } from "./components/ChatSearch";
 
 export const ChatApp = () => {
   return (
@@ -8,10 +9,8 @@ export const ChatApp = () => {
       <Stack direction={"row"} gap={1}>
         <Sidebar />
         <Stack direction={"row"} width={"100%"} gap={1}>
-          <Stack width={"30%"} gap={1}>
-            <Stack p={3} bgcolor={"white"} borderRadius={"16px"}>
-              Search
-            </Stack>
+          <Stack width={"34%"} gap={1}>
+            <ChatSearch />
             <Stack
               p={3}
               bgcolor={"white"}
@@ -23,7 +22,12 @@ export const ChatApp = () => {
             </Stack>
           </Stack>
           <Stack flex={1} gap={1}>
-            <Stack p={3} bgcolor={"white"} borderRadius={"16px"}>
+            <Stack
+              p={3}
+              bgcolor={"white"}
+              borderRadius={"16px"}
+              height={"100px"}
+            >
               Profile Overview
             </Stack>
             <Stack
