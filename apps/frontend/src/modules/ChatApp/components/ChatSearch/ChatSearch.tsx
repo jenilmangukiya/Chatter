@@ -13,15 +13,16 @@ export const ChatSearch = () => {
       alignItems={"center"}
       justifyContent={"space-between"}
       height={"100px"}
+      gap={1}
     >
-      <Typography variant="h5" fontWeight={600}>
+      <Typography variant="h6" fontWeight={600}>
         Chat
       </Typography>
       <TextField
         variant="outlined"
         size="small"
         placeholder="Search"
-        sx={{ width: { xs: "100%", lg: "70%" } }}
+        fullWidth
         value={searchText}
         onChange={(e) => setSearchText(e.target.value)}
         onKeyDown={(e) => {
