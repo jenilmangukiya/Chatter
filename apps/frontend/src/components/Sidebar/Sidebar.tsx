@@ -8,6 +8,7 @@ import {
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import { IconButton, Stack } from "@mui/material";
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 export const Sidebar = () => {
   return (
@@ -28,16 +29,40 @@ export const Sidebar = () => {
         <AutoAwesomeIcon sx={{ color: "primary.main", fontSize: "32px" }} />
         <Stack gap={4}>
           <IconButton aria-label="Profile">
-            <EmailOutlined sx={{ color: "white" }} />
+            <NavLink to={"/emails"}>
+              {({ isActive }) => (
+                <EmailOutlined
+                  sx={{ color: isActive ? "primary.main" : "white" }}
+                />
+              )}
+            </NavLink>
           </IconButton>
           <IconButton aria-label="Profile">
-            <MessageOutlined sx={{ color: "primary.main" }} />
+            <NavLink to={"/chat"}>
+              {({ isActive }) => (
+                <MessageOutlined
+                  sx={{ color: isActive ? "primary.main" : "white" }}
+                />
+              )}
+            </NavLink>
           </IconButton>
           <IconButton aria-label="Profile">
-            <NotificationsOutlined sx={{ color: "white" }} />
+            <NavLink to={"/notifications"}>
+              {({ isActive }) => (
+                <NotificationsOutlined
+                  sx={{ color: isActive ? "primary.main" : "white" }}
+                />
+              )}
+            </NavLink>
           </IconButton>
           <IconButton aria-label="Profile">
-            <DeleteOutline sx={{ color: "white" }} />
+            <NavLink to={"/deleted"}>
+              {({ isActive }) => (
+                <DeleteOutline
+                  sx={{ color: isActive ? "primary.main" : "white" }}
+                />
+              )}
+            </NavLink>
           </IconButton>
         </Stack>
         <IconButton aria-label="Profile">

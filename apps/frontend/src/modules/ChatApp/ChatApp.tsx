@@ -1,51 +1,39 @@
-import { Box, Divider, Stack } from "@mui/material";
-import React, { useState } from "react";
+import { Divider, Stack } from "@mui/material";
+import React from "react";
+import { NavLink, useOutlet } from "react-router-dom";
 import { ChatCard } from "../../components";
-import { ChatHeader, SendChatActions, Sidebar } from "./components";
-import { ChatSearch } from "./components/ChatSearch";
+import { ChatPlaceholder, ChatSearch } from "./components";
 import { useStyle } from "./useStyle";
 
 export const ChatApp = () => {
-  const [activeChat, setActiveChat] = useState(null);
   const { chatListContainer } = useStyle();
+  const outlet = useOutlet();
+
   return (
-    <Box padding={4} bgcolor={"#eeeeee"}>
-      <Stack direction={"row"} gap={1} height={"calc(100vh - 62px)"}>
-        <Sidebar />
-        <Stack direction={"row"} width={"100%"} gap={1}>
-          <Stack width={"34%"} gap={1}>
-            <ChatSearch />
-            <Stack sx={chatListContainer}>
-              {[1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 5, 6].map((item) => {
-                return (
-                  <>
-                    <ChatCard
-                      isActive={item == activeChat}
-                      onClick={(item: any) => setActiveChat(item)}
-                      item={item}
-                    />
-                    <Divider variant="middle" />
-                  </>
-                );
-              })}
-            </Stack>
-          </Stack>
-          <Stack flex={1} gap={1}>
-            <ChatHeader />
-            <Stack gap={1} position={"static"} height={"100%"}>
-              <Stack
-                borderRadius={"16px"}
-                bgcolor={"white"}
-                height={"100%"}
-                p={2}
-              >
-                hello
-              </Stack>
-              <SendChatActions />
-            </Stack>
-          </Stack>
+    <Stack direction={"row"} width={"100%"} gap={1}>
+      <Stack width={"34%"} gap={1}>
+        <ChatSearch />
+        <Stack sx={chatListContainer}>
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map((item) => {
+            return (
+              <div key={item}>
+                <NavLink
+                  to={`/chat/${item}`}
+                  style={{ textDecoration: "none" }}
+                >
+                  {({ isActive }) => (
+                    <ChatCard isActive={isActive} item={item} key={item} />
+                  )}
+                </NavLink>
+                <Divider variant="middle" key={item} />
+              </div>
+            );
+          })}
         </Stack>
       </Stack>
-    </Box>
+      <Stack flex={1} gap={1}>
+        {outlet || <ChatPlaceholder />}
+      </Stack>
+    </Stack>
   );
 };

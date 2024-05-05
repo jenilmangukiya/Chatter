@@ -33,7 +33,7 @@ export const ChatCard = ({
           justifyContent={"space-between"}
           width={"100%"}
         >
-          <Typography variant="body1" fontWeight={600}>
+          <Typography variant="body1" fontWeight={600} color={"text.primary"}>
             John Doe
           </Typography>
           <Typography variant="caption" color={"text.secondary"}>
