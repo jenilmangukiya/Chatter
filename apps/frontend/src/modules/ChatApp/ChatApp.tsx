@@ -3,6 +3,7 @@ import React from "react";
 import { NavLink, useOutlet } from "react-router-dom";
 import { ChatCard } from "../../components";
 import { ChatPlaceholder, ChatSearch } from "./components";
+import { chatsMain } from "./data";
 import { useStyle } from "./useStyle";
 
 export const ChatApp = () => {
@@ -14,18 +15,27 @@ export const ChatApp = () => {
       <Stack width={"34%"} gap={1}>
         <ChatSearch />
         <Stack sx={chatListContainer}>
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map((item) => {
+          {chatsMain.map((item) => {
             return (
-              <div key={item}>
+              <div key={item.id}>
                 <NavLink
-                  to={`/chat/${item}`}
+                  to={`/chat/${item.id}`}
                   style={{ textDecoration: "none" }}
                 >
                   {({ isActive }) => (
-                    <ChatCard isActive={isActive} item={item} key={item} />
+                    <ChatCard
+                      isActive={isActive}
+                      title={item.title}
+                      lastMessage={item.last_message}
+                      lastMessageTime={item.last_message_time}
+                      totalMembers={item?.totalMembers}
+                      unreadMessages={item.unreadMessage}
+                      isGroup={item.isGroup}
+                      key={item.id}
+                    />
                   )}
                 </NavLink>
-                <Divider variant="middle" key={item} />
+                <Divider variant="middle" key={item.id} />
               </div>
             );
           })}

@@ -1,6 +1,6 @@
 import {
   DeleteOutline,
-  EmailOutlined,
+  GroupsOutlined,
   MessageOutlined,
   NotificationsOutlined,
   PersonOutline,
@@ -29,18 +29,18 @@ export const Sidebar = () => {
         <AutoAwesomeIcon sx={{ color: "primary.main", fontSize: "32px" }} />
         <Stack gap={4}>
           <IconButton aria-label="Profile">
-            <NavLink to={"/emails"}>
+            <NavLink to={"/chat"}>
               {({ isActive }) => (
-                <EmailOutlined
+                <MessageOutlined
                   sx={{ color: isActive ? "primary.main" : "white" }}
                 />
               )}
             </NavLink>
           </IconButton>
           <IconButton aria-label="Profile">
-            <NavLink to={"/chat"}>
+            <NavLink to={"/groups"}>
               {({ isActive }) => (
-                <MessageOutlined
+                <GroupsOutlined
                   sx={{ color: isActive ? "primary.main" : "white" }}
                 />
               )}
