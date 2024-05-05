@@ -7,10 +7,12 @@ import {
   Groups,
   Login,
   Notifications,
+  Profile,
   Register,
 } from "../modules";
 
 import { Layout } from "../components";
+
 import { Deleted } from "../modules/Deleted";
 
 export const Router = () => {
@@ -21,6 +23,7 @@ export const Router = () => {
           <Route index element={<Navigate to="/chat" replace />} />
           <Route path="/chat" element={<ChatApp />}>
             <Route path={":id"} element={<Chat />}></Route>
+            <Route path=":id/profile" element={<Profile />} />
           </Route>
           <Route path="/notifications" element={<Notifications />}></Route>
           <Route path="/groups" element={<Groups />}></Route>

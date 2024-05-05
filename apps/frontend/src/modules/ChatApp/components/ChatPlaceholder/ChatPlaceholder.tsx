@@ -28,7 +28,7 @@ export const ChatPlaceholder = () => {
         Message someone and chat right now.
       </Typography>
       <Button variant="contained" sx={{ borderRadius: "32px" }} size="large">
-        Send Message
+        Create group
       </Button>
     </Stack>
   );

@@ -2,10 +2,13 @@ import { MoreHoriz, Search } from "@mui/icons-material";
 import { Avatar, Box, Button, Divider, Stack, Typography } from "@mui/material";
 import { green } from "@mui/material/colors";
 import React from "react";
+import { Link, useParams } from "react-router-dom";
 import { useStyle } from "./useStyle";
 
 export const ChatHeader = () => {
+  const { id } = useParams();
   const { callButton, profileButton } = useStyle();
+
   return (
     <Stack p={3} bgcolor={"white"} borderRadius={"16px"} minHeight={"100px"}>
       <Stack
@@ -25,19 +28,26 @@ export const ChatHeader = () => {
             J
           </Avatar>
           <Stack>
-            <Typography variant="body1" fontWeight={600}>
-              John Doe
-            </Typography>
-            <Typography variant="body2" color={"text.secondary"}>
-              John Doe
-            </Typography>
+            <Link to={`/chat/${id}/profile`} style={{ textDecoration: "none" }}>
+              <Typography
+                variant="body1"
+                fontWeight={600}
+                color={"text.primary"}
+              >
+                John Doe
+              </Typography>
+              <Typography variant="body2" color={"text.secondary"}>
+                Online
+              </Typography>
+            </Link>
           </Stack>
         </Stack>
         <Stack direction={"row"} gap={2} alignItems={"center"}>
-          <Button variant="outlined" sx={profileButton}>
-            Profile
-          </Button>
-
+          <Link to={`/chat/${id}/profile`} style={{ textDecoration: "none" }}>
+            <Button variant="outlined" sx={profileButton}>
+              Profile
+            </Button>
+          </Link>
           <Button variant="contained" sx={callButton}>
             Call
           </Button>
