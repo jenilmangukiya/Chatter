@@ -17,6 +17,6 @@ app.use(express.static("public"));
 app.use(cookieParser());
 
 app.get("/", (req, res) => {
-  res.status(200).json({ message: "Success" });
+  res.status(200).json({ message: "Success not " });
 });
 export { app };
