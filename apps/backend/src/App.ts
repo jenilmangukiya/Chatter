@@ -16,7 +16,11 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public"));
 app.use(cookieParser());
 
-app.get("/", (req, res) => {
-  res.status(200).json({ message: "Success not " });
-});
+// Routes
+import healthCheckRouter from "./routes/healthcheck.routes.js";
+
+// Routes Declaration
+app.use("/api/v1/healthCheck", healthCheckRouter);
+// app.use("/api/v1/users", userRouter);
+
 export { app };
