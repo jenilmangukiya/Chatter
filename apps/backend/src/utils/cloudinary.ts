@@ -12,6 +12,7 @@ const uploadOnCloudinary = async (localFilePath: string) => {
     if (!localFilePath) return null;
     const response = await cloudinary.uploader.upload(localFilePath, {
       resource_type: "auto",
+      folder: "chatter",
     });
     console.log("File uploaded to cloudinary At: ", response.url);
     fs.unlinkSync(localFilePath); // remove unused file
@@ -31,7 +32,7 @@ const removeFromCloudinary = async (url: string, resource_type = "auto") => {
       ?.replace(/\..*/, "");
 
     if (publicId)
-      return await cloudinary.uploader.destroy(publicId, {
+      return await cloudinary.uploader.destroy(`chatter/${publicId}`, {
         resource_type,
       });
     else return null;

@@ -31,7 +31,7 @@ const generateAccessAndRefreshToken = async (userId: string) => {
   }
 };
 
-const registerUser = asyncHandler(
+export const registerUser = asyncHandler(
   async (req: RequestExpress, res: Response) => {
     const { password, fullName, email } = req.body;
 
@@ -50,14 +50,10 @@ const registerUser = asyncHandler(
     }
 
     // Check for avatar path and upload it to cloudinary
+    console.log("req", req);
     let avatar;
-    if (
-      req.files &&
-      "avatar" in req.files &&
-      Array.isArray(req.files?.avatar) &&
-      req.files.avatar.length > 0
-    ) {
-      const avatarLocalPath = req.files?.avatar?.[0]?.path;
+    if (req.file?.path) {
+      const avatarLocalPath = req.file?.path;
       avatar = await uploadOnCloudinary(avatarLocalPath);
     }
 
