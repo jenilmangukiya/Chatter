@@ -1,6 +1,5 @@
 import { Attachment, Send } from "@mui/icons-material";
 import { IconButton, InputBase, Stack } from "@mui/material";
-import React from "react";
 import { useStyle } from "./useStyle";
 
 export const SendChatActions = () => {

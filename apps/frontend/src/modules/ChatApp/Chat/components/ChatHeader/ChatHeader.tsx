@@ -1,7 +1,6 @@
 import { MoreHoriz, Search } from "@mui/icons-material";
 import { Avatar, Box, Button, Divider, Stack, Typography } from "@mui/material";
 import { green } from "@mui/material/colors";
-import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { useStyle } from "./useStyle";
 

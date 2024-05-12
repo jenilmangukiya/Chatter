@@ -1,6 +1,5 @@
 import { Avatar, Box, Stack, Typography } from "@mui/material";
 import { red } from "@mui/material/colors";
-import React from "react";
 
 export const Message = ({
   message = "Hello how are you",

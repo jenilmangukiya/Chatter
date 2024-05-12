@@ -7,7 +7,6 @@ import {
 } from "@mui/icons-material";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import { IconButton, Stack } from "@mui/material";
-import React from "react";
 import { NavLink } from "react-router-dom";
 
 export const Sidebar = () => {

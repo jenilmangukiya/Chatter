@@ -1,5 +1,6 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
+  Box,
   Button,
   Checkbox,
   Divider,
@@ -16,6 +17,7 @@ import {
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Header } from "../../../components";
+import { useSignIn } from "./useSignIn";
 
 export const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -28,6 +30,8 @@ export const Login = () => {
     event.preventDefault();
   };
 
+  const { handleSubmit } = useSignIn();
+
   return (
     <>
       <Header />
@@ -37,7 +41,7 @@ export const Login = () => {
           Login
         </Typography>
         <Typography variant="body1">Hi, Welcome back 👋</Typography>
-        <form>
+        <Box component={"form"} onSubmit={handleSubmit}>
           <Stack gap={2} mt={4}>
             <Stack gap={1}>
               <InputLabel>Email</InputLabel>
@@ -46,6 +50,8 @@ export const Login = () => {
                 variant="outlined"
                 placeholder="E.g johndoe@email.com"
                 autoComplete="off"
+                id="email"
+                name="email"
               />
             </Stack>
 
@@ -53,7 +59,8 @@ export const Login = () => {
               <InputLabel>Password</InputLabel>
               <FormControl variant="outlined" size="small">
                 <OutlinedInput
-                  id="outlined-adornment-password"
+                  id="password"
+                  name="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
                   endAdornment={
@@ -87,7 +94,7 @@ export const Login = () => {
               </Typography>
             </Stack>
 
-            <Button variant="contained" size="large">
+            <Button variant="contained" size="large" type="submit">
               Login
             </Button>
 
@@ -103,7 +110,7 @@ export const Login = () => {
               </Typography>
             </Stack>
           </Stack>
-        </form>
+        </Box>
       </Stack>
     </>
   );

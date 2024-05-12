@@ -1,7 +1,6 @@
 import { ArrowBack } from "@mui/icons-material";
 import { Avatar, Button, Stack, Typography } from "@mui/material";
 import { red } from "@mui/material/colors";
-import React from "react";
 import { useNavigate } from "react-router-dom";
 
 export const Profile = () => {

@@ -1,5 +1,4 @@
 import { Stack } from "@mui/material";
-import React from "react";
 import { ChatHeader, Message, SendChatActions } from "./components";
 
 export const Chat = () => {

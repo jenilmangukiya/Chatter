@@ -1,6 +1,6 @@
 import { Add, Search } from "@mui/icons-material";
 import { IconButton, Stack, TextField, Typography } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 
 export const ChatSearch = () => {
   const [searchText, setSearchText] = useState("");

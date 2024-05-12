@@ -1,6 +1,5 @@
 import { Avatar, AvatarGroup, Stack, Typography } from "@mui/material";
 import { red } from "@mui/material/colors";
-import React from "react";
 import { useStyle } from "./useStyle";
 
 export const ChatCard = ({

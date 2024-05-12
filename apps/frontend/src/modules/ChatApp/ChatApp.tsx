@@ -1,5 +1,4 @@
 import { Divider, Stack } from "@mui/material";
-import React from "react";
 import { NavLink, useOutlet } from "react-router-dom";
 import { ChatCard } from "../../components";
 import { ChatPlaceholder, ChatSearch } from "./components";

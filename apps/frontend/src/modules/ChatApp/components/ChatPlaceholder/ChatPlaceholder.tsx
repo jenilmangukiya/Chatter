@@ -1,5 +1,4 @@
 import { Button, Stack, Typography } from "@mui/material";
-import React from "react";
 import chatSvg from "./../../../../assets/chat.svg";
 
 export const ChatPlaceholder = () => {

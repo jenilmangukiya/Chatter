@@ -1,4 +1,3 @@
-import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 import {
@@ -13,13 +12,21 @@ import {
 
 import { Layout } from "../components";
 
+import { AuthProvider } from "../Auth/AuthProvider";
 import { Deleted } from "../modules/Deleted";
 
 export const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route
+          path="/"
+          element={
+            <AuthProvider>
+              <Layout />
+            </AuthProvider>
+          }
+        >
           <Route index element={<Navigate to="/chat" replace />} />
           <Route path="/chat" element={<ChatApp />}>
             <Route path={":id"} element={<Chat />}></Route>
