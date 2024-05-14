@@ -40,11 +40,11 @@ export const SignUp = () => {
         <form>
           <Stack gap={2} mt={4}>
             <Stack gap={1}>
-              <InputLabel>Username</InputLabel>
+              <InputLabel>Full name</InputLabel>
               <TextField
                 type="text"
                 variant="outlined"
-                placeholder="E.g johnDoe"
+                placeholder="E.g john Doe"
                 autoComplete="off"
               />
             </Stack>

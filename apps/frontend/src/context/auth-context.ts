@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction, createContext } from "react";
 
 export interface UserType {
-  username: string;
   email: string;
   userId: string;
   fullName: string;
@@ -15,7 +14,7 @@ export interface AuthContextType {
 }
 
 const defaultContextValue: AuthContextType = {
-  user: { username: "", email: "", userId: "", fullName: "" },
+  user: { email: "", userId: "", fullName: "" },
   setUser: () => {},
   isAuthenticated: false,
   setIsAuthenticated: () => {},

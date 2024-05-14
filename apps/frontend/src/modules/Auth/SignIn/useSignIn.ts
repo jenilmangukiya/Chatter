@@ -27,7 +27,6 @@ export const useSignIn = () => {
           email: user.email,
           fullName: user.fullName,
           userId: user._id,
-          username: user.username,
         });
         setSnackbarConfig({
           open: true,

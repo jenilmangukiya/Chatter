@@ -51,7 +51,7 @@ export const registerUser = asyncHandler(
     });
 
     if (userExist) {
-      throw new ApiError(409, "Username or email already exist");
+      throw new ApiError(409, "Email already exist");
     }
 
     // Check for avatar path and upload it to cloudinary

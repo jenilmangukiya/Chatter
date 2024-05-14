@@ -13,7 +13,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [user, setUser] = useState<UserType>({
-    username: "",
     email: "",
     userId: "",
     fullName: "",
@@ -35,7 +34,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
               }
             }
             const userObj = {
-              username: decodedToken.username,
               email: decodedToken.email,
               fullName: decodedToken.fullName,
               userId: decodedToken._id,
