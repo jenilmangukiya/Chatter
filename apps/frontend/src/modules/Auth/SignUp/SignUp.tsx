@@ -16,6 +16,7 @@ import {
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Header } from "../../../components";
+import { useSignUp } from "./useSignUp";
 
 export const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -28,21 +29,24 @@ export const SignUp = () => {
     event.preventDefault();
   };
 
+  const { handleSubmit } = useSignUp();
+
   return (
     <>
       <Header />
       <Divider />
-      <Stack mx={"auto"} width={"400px"} mt={8} gap={2}>
+      <Stack mx={"auto"} width={"400px"} mt={6} gap={2}>
         <Typography variant="h3" fontWeight={500}>
           Register
         </Typography>
         <Typography variant="body1">Hi, Welcome to Chatter 👋</Typography>
-        <form>
-          <Stack gap={2} mt={4}>
+        <form onSubmit={handleSubmit}>
+          <Stack gap={2} mt={1}>
             <Stack gap={1}>
               <InputLabel>Full name</InputLabel>
               <TextField
                 type="text"
+                name="fullName"
                 variant="outlined"
                 placeholder="E.g john Doe"
                 autoComplete="off"
@@ -51,7 +55,8 @@ export const SignUp = () => {
             <Stack gap={1}>
               <InputLabel>Email</InputLabel>
               <TextField
-                type="text"
+                type="email"
+                name="email"
                 variant="outlined"
                 placeholder="E.g johndoe@email.com"
                 autoComplete="off"
@@ -63,8 +68,33 @@ export const SignUp = () => {
               <FormControl variant="outlined" size="small">
                 <OutlinedInput
                   id="outlined-adornment-password"
+                  name="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+            </Stack>
+
+            <Stack gap={1}>
+              <InputLabel>Confirm Password</InputLabel>
+              <FormControl variant="outlined" size="small">
+                <OutlinedInput
+                  id="outlined-adornment-confirm-password"
+                  name="confirmPassword"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter Confirm password"
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton
@@ -93,7 +123,7 @@ export const SignUp = () => {
               />
             </Stack>
 
-            <Button variant="contained" size="large">
+            <Button variant="contained" size="large" type="submit">
               Register
             </Button>
 

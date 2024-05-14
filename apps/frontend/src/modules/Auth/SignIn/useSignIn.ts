@@ -5,16 +5,16 @@ import { useLoginUser } from "../../../services";
 
 export const useSignIn = () => {
   const navigate = useNavigate();
-  const { setIsAuthenticated, setUser, isAuthenticated } = useAuth();
-  console.log("inn", isAuthenticated);
+  const { setIsAuthenticated, setUser } = useAuth();
+
   const { setSnackbarConfig } = useSnackbar();
 
   const { mutate: loginMutation } = useLoginUser({
-    onError: (e) => {
-      console.log("1", e);
+    onError: (e: any) => {
+      console.log("e", e);
       setSnackbarConfig({
         open: true,
-        message: "LoggedIn Failed",
+        message: e?.response?.data?.message || "Login failed",
         severity: "error",
       });
       setIsAuthenticated(false);
@@ -28,17 +28,12 @@ export const useSignIn = () => {
           fullName: user.fullName,
           userId: user._id,
         });
-        setSnackbarConfig({
-          open: true,
-          message: "LoggedIn SuccessFully",
-          severity: "success",
-        });
         navigate("/chat");
       } else {
         setIsAuthenticated(false);
         setSnackbarConfig({
           open: true,
-          message: "LoggedIn Failed",
+          message: "Login Failed",
           severity: "error",
         });
       }

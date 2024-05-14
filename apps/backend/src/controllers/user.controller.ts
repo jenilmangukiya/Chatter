@@ -51,7 +51,7 @@ export const registerUser = asyncHandler(
     });
 
     if (userExist) {
-      throw new ApiError(409, "Email already exist");
+      throw new ApiError(409, "This email address already exist.");
     }
 
     // Check for avatar path and upload it to cloudinary
@@ -101,7 +101,7 @@ export const loginUser = asyncHandler(
 
     const user: any = await User.findOne({ email });
     if (!user) {
-      throw new ApiError(404, "Email does not exist");
+      throw new ApiError(404, "This email address does not exist.");
     }
 
     const isUserValid = await user.isPasswordCorrect(password);

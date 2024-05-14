@@ -6,7 +6,7 @@ import { SnackbarAlertProps } from "./types";
 
 export const SnackbarAlert: React.FC<SnackbarAlertProps> = ({
   snackbarConfig,
-  setSnackbarConfig
+  setSnackbarConfig,
 }) => {
   const handleClose = (
     _event?: React.SyntheticEvent | Event,
@@ -18,7 +18,7 @@ export const SnackbarAlert: React.FC<SnackbarAlertProps> = ({
 
     setSnackbarConfig({
       ...snackbarConfig,
-      open: false
+      open: false,
     });
   };
 
@@ -30,7 +30,7 @@ export const SnackbarAlert: React.FC<SnackbarAlertProps> = ({
       anchorOrigin={
         snackbarConfig.anchorOrigin ?? {
           vertical: "bottom",
-          horizontal: "right"
+          horizontal: "right",
         }
       }
     >
