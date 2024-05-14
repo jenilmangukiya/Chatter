@@ -11,7 +11,7 @@ export const ChatApp = () => {
 
   return (
     <Stack direction={"row"} width={"100%"} gap={1}>
-      <Stack width={"34%"} gap={1}>
+      <Stack sx={{ width: { md: "45%", lg: "34%" } }} gap={1}>
         <ChatSearch />
         <Stack sx={chatListContainer}>
           {chatsMain.map((item) => {

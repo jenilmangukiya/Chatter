@@ -15,6 +15,7 @@ import { Layout } from "../components";
 import { AuthProvider } from "../Auth";
 import { Deleted } from "../modules/Deleted";
 import { PrivateRoutes } from "./PrivateRoutes";
+import { PublicRoutes } from "./PublicRoutes";
 
 export const Router = () => {
   return (
@@ -38,8 +39,23 @@ export const Router = () => {
             <Route path="/groups" element={<Groups />}></Route>
             <Route path="/deleted" element={<Deleted />}></Route>
           </Route>
-          <Route path="/sign-in" element={<SignIn />} />
-          <Route path="/sign-up" element={<SignUp />} />
+
+          <Route
+            path="/sign-in"
+            element={
+              <PublicRoutes>
+                <SignIn />
+              </PublicRoutes>
+            }
+          />
+          <Route
+            path="/sign-up"
+            element={
+              <PublicRoutes>
+                <SignUp />
+              </PublicRoutes>
+            }
+          />
         </Routes>
       </AuthProvider>
     </BrowserRouter>
