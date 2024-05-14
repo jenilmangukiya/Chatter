@@ -1,5 +1,6 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
+  Box,
   Button,
   Checkbox,
   Divider,
@@ -16,8 +17,9 @@ import {
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Header } from "../../../components";
+import { useSignIn } from "./useSignIn";
 
-export const Register = () => {
+export const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -28,26 +30,19 @@ export const Register = () => {
     event.preventDefault();
   };
 
+  const { handleSubmit } = useSignIn();
+
   return (
     <>
       <Header />
       <Divider />
       <Stack mx={"auto"} width={"400px"} mt={8} gap={2}>
         <Typography variant="h3" fontWeight={500}>
-          Register
+          Login
         </Typography>
-        <Typography variant="body1">Hi, Welcome to Chatter 👋</Typography>
-        <form>
+        <Typography variant="body1">Hi, Welcome back 👋</Typography>
+        <Box component={"form"} onSubmit={handleSubmit}>
           <Stack gap={2} mt={4}>
-            <Stack gap={1}>
-              <InputLabel>Username</InputLabel>
-              <TextField
-                type="text"
-                variant="outlined"
-                placeholder="E.g johnDoe"
-                autoComplete="off"
-              />
-            </Stack>
             <Stack gap={1}>
               <InputLabel>Email</InputLabel>
               <TextField
@@ -55,6 +50,8 @@ export const Register = () => {
                 variant="outlined"
                 placeholder="E.g johndoe@email.com"
                 autoComplete="off"
+                id="email"
+                name="email"
               />
             </Stack>
 
@@ -62,7 +59,8 @@ export const Register = () => {
               <InputLabel>Password</InputLabel>
               <FormControl variant="outlined" size="small">
                 <OutlinedInput
-                  id="outlined-adornment-password"
+                  id="password"
+                  name="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
                   endAdornment={
@@ -88,13 +86,16 @@ export const Register = () => {
             >
               <FormControlLabel
                 control={<Checkbox />}
-                label="I agree to the term and conditions"
+                label="Remember me"
                 slotProps={{ typography: { variant: "body2" } }}
               />
+              <Typography color="primary" variant="body2">
+                Forgot password?
+              </Typography>
             </Stack>
 
-            <Button variant="contained" size="large">
-              Register
+            <Button variant="contained" size="large" type="submit">
+              Login
             </Button>
 
             <Stack
@@ -103,13 +104,13 @@ export const Register = () => {
               alignItems={"center"}
               gap={1}
             >
-              <Typography variant="body2">Already have an account?</Typography>
+              <Typography variant="body2">Not registered yet?</Typography>
               <Typography variant="body2">
-                <Link to={"/sign-in"}>Sign-in?</Link>
+                <Link to={"/sign-up"}>Create an account</Link>
               </Typography>
             </Stack>
           </Stack>
-        </form>
+        </Box>
       </Stack>
     </>
   );

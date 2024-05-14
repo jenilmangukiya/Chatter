@@ -4,10 +4,10 @@ import {
   Chat,
   ChatApp,
   Groups,
-  Login,
   Notifications,
   Profile,
-  Register,
+  SignIn,
+  SignUp,
 } from "../modules";
 
 import { Layout } from "../components";
@@ -36,8 +36,8 @@ export const Router = () => {
           <Route path="/groups" element={<Groups />}></Route>
           <Route path="/deleted" element={<Deleted />}></Route>
         </Route>
-        <Route path="/sign-in" element={<Login />} />
-        <Route path="/sign-up" element={<Register />} />
+        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/sign-up" element={<SignUp />} />
       </Routes>
     </BrowserRouter>
   );
