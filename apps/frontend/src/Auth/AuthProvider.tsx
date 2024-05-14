@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 import { jwtDecode } from "jwt-decode";
 
-import { Navigate } from "react-router-dom";
 import PageLoader from "../components/PageLoader";
 import { AuthContext } from "../context/auth-context";
 import { getCookie } from "../utils";
@@ -53,19 +52,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     })();
   }, []);
 
-  if (!isAuthenticated) {
-    return <Navigate to={"/sign-in"} />;
-  }
-
-  if (isAuthenticated)
-    return (
-      <AuthContext.Provider
-        value={{ isAuthenticated, setIsAuthenticated, user, setUser }}
-      >
-        <AxiosResponseInterceptors>
-          {isLoading && <PageLoader />}
-          {!isLoading && children}
-        </AxiosResponseInterceptors>
-      </AuthContext.Provider>
-    );
+  return (
+    <AuthContext.Provider
+      value={{ isAuthenticated, setIsAuthenticated, user, setUser }}
+    >
+      <AxiosResponseInterceptors>
+        {isLoading && <PageLoader />}
+        {!isLoading && children}
+      </AxiosResponseInterceptors>
+    </AuthContext.Provider>
+  );
 };

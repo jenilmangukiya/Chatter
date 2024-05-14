@@ -5,7 +5,8 @@ import { useLoginUser } from "../../../services";
 
 export const useSignIn = () => {
   const navigate = useNavigate();
-  const { setIsAuthenticated, setUser } = useAuth();
+  const { setIsAuthenticated, setUser, isAuthenticated } = useAuth();
+  console.log("inn", isAuthenticated);
   const { setSnackbarConfig } = useSnackbar();
 
   const { mutate: loginMutation } = useLoginUser({
@@ -33,7 +34,7 @@ export const useSignIn = () => {
           message: "LoggedIn SuccessFully",
           severity: "success",
         });
-        navigate("/");
+        navigate("/chat");
       } else {
         setIsAuthenticated(false);
         setSnackbarConfig({
