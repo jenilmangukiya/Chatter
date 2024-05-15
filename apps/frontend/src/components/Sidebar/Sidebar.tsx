@@ -7,9 +7,15 @@ import {
 } from "@mui/icons-material";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import { IconButton, Stack } from "@mui/material";
+import React from "react";
 import { NavLink } from "react-router-dom";
+import { Menu } from "./components";
 
 export const Sidebar = () => {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
   return (
     <Stack
       width={"80px"}
@@ -64,9 +70,10 @@ export const Sidebar = () => {
             </NavLink>
           </IconButton>
         </Stack>
-        <IconButton aria-label="Profile">
+        <IconButton aria-label="Profile" onClick={handleClick}>
           <PersonOutline sx={{ color: "white" }} />
         </IconButton>
+        <Menu anchorEl={anchorEl} setAnchorEl={setAnchorEl} />
       </Stack>
     </Stack>
   );

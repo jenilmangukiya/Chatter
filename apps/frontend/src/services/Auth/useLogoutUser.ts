@@ -2,16 +2,16 @@ import { UseMutationOptions, useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
 import { axiosAuth } from "../../Auth";
-import { LOGIN_USER } from "./AuthApiRoutes";
+import { LOGOUT_USER } from "./AuthApiRoutes";
 
-const loginUser = async (data: any) => {
-  return await axiosAuth.post(LOGIN_USER, data);
+const logoutUser = async () => {
+  return await axiosAuth.post(LOGOUT_USER);
 };
 
-export const useLoginUser = (
+export const useLogoutUser = (
   queryParams?: UseMutationOptions<any, Error, string | undefined, unknown>
 ) =>
   useMutation<any, AxiosError, any>({
-    mutationFn: loginUser,
+    mutationFn: logoutUser,
     ...queryParams,
   });

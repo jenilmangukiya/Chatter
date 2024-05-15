@@ -1,6 +1,5 @@
-export { default as useLoginUser } from "./useLoginUser";
 export * from "./useLoginUser";
-export { default as useRegisterUser } from "./useRegisterUser";
+export * from "./useLogoutUser";
 export * from "./useRegisterUser";
 
 export * from "./AuthApiRoutes";
