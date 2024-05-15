@@ -3,7 +3,7 @@ import { Avatar, Button, Stack, Typography } from "@mui/material";
 import { red } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
 
-export const Profile = () => {
+export const Profile = ({ onBackButtonClick }: { onBackButtonClick?: any }) => {
   const navigate = useNavigate();
   return (
     <>
@@ -16,7 +16,10 @@ export const Profile = () => {
           <Button
             variant="outlined"
             startIcon={<ArrowBack />}
-            onClick={() => navigate(-1)}
+            onClick={() => {
+              !onBackButtonClick && navigate(-1);
+              onBackButtonClick && onBackButtonClick();
+            }}
           >
             back
           </Button>

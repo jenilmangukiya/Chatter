@@ -43,7 +43,7 @@ export const Sidebar = () => {
             </NavLink>
           </IconButton>
           <IconButton aria-label="Profile">
-            <NavLink to={"/groups"}>
+            <NavLink to={"/explore"}>
               {({ isActive }) => (
                 <GroupsOutlined
                   sx={{ color: isActive ? "primary.main" : "white" }}

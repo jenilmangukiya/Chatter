@@ -1,19 +1,18 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
-import {
-  Chat,
-  ChatApp,
-  Groups,
-  Notifications,
-  Profile,
-  SignIn,
-  SignUp,
-} from "../modules";
-
 import { Layout } from "../components";
 
 import { AuthProvider } from "../Auth";
-import { Deleted } from "../modules/Deleted";
+import {
+  Chat,
+  ChatApp,
+  ChatProfile,
+  Explore,
+  ExploreProfile,
+  Notifications,
+  SignIn,
+  SignUp,
+} from "../pages";
 import { PrivateRoutes } from "./PrivateRoutes";
 import { PublicRoutes } from "./PublicRoutes";
 
@@ -33,11 +32,13 @@ export const Router = () => {
             <Route index element={<Navigate to="/chat" replace />} />
             <Route path="/chat" element={<ChatApp />}>
               <Route path={":id"} element={<Chat />}></Route>
-              <Route path=":id/profile" element={<Profile />} />
+              <Route path=":id/profile" element={<ChatProfile />} />
+            </Route>
+            <Route path="/explore" element={<Explore />}>
+              <Route path=":id/profile" element={<ExploreProfile />} />
             </Route>
             <Route path="/notifications" element={<Notifications />}></Route>
-            <Route path="/groups" element={<Groups />}></Route>
-            <Route path="/deleted" element={<Deleted />}></Route>
+            <Route path="/deleted" element={<p>Delete</p>}></Route>
           </Route>
 
           <Route
