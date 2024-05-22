@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   changeCurrentPassword,
   getCurrentUser,
+  getUsers,
   loginUser,
   logoutUser,
   refreshAccessToken,
@@ -13,6 +14,9 @@ import { upload } from "../middlewares/multer.middleware.js";
 
 const router = Router();
 
+router.route("/getUsers").get(verifyJWT, getUsers);
+router.route("/current-user").get(verifyJWT, getCurrentUser);
+
 router.route("/register").post(upload.single("avatar"), registerUser);
 router.route("/login").post(loginUser);
 
@@ -22,8 +26,6 @@ router.route("/changeCurrentPassword").post(verifyJWT, changeCurrentPassword);
 router
   .route("/updateUserAvatar")
   .post(upload.single("avatar"), verifyJWT, updateUserAvatar);
-
-router.route("/current-user").get(verifyJWT, getCurrentUser);
 
 router.route("/logout").post(verifyJWT, logoutUser);
 

@@ -9,6 +9,7 @@ import {
 } from "../utils/cloudinary.js";
 import { RequestExpress } from "../utils/types.js";
 import { User } from "./../models/user.model.js";
+import { QueryParams } from "./types.js";
 
 const cookiesOptions = {
   secure: true,
@@ -306,5 +307,64 @@ export const logoutUser = asyncHandler(
       .clearCookie("accessToken", cookiesOptions)
       .clearCookie("refreshToken", cookiesOptions)
       .json(new ApiResponse(200, {}, "User logged out successfully"));
+  }
+);
+
+export const getUsers = asyncHandler(
+  async (req: RequestExpress, res: Response) => {
+    const {
+      page = 1,
+      limit = 10,
+      query,
+      sortBy,
+      sortType,
+    } = req.query as QueryParams;
+    const includeCurrentUser = req.query?.includeCurrentUser;
+
+    const aggregation: any = [];
+
+    if (!includeCurrentUser) {
+      aggregation.push({
+        $match: {
+          email: {
+            $ne: req.user.email,
+          },
+        },
+      });
+    }
+
+    if (query) {
+      aggregation.push({
+        $match: {
+          $or: [
+            { email: { $regex: new RegExp(query, "i") } },
+            { fullName: { $regex: new RegExp(query, "i") } },
+          ],
+        },
+      });
+    }
+
+    if (
+      sortBy &&
+      ["email", "fullName", "views", "createdAt"].includes(sortBy)
+    ) {
+      const sortOrder = sortType?.toLowerCase() === "desc" ? -1 : 1;
+      aggregation.push({
+        $sort: {
+          [sortBy]: sortOrder,
+        },
+      });
+    }
+
+    const options = {
+      page: +page,
+      limit: +limit,
+    };
+
+    const pipeline = User.aggregate(aggregation);
+
+    const userPaginated = await User.aggregatePaginate(pipeline, options);
+
+    res.status(200).json(new ApiResponse(200, userPaginated));
   }
 );
