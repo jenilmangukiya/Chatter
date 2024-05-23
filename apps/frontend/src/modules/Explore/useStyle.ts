@@ -10,5 +10,16 @@ export const useStyle = () => {
       bgcolor: "white",
       py: 2,
     },
+    exploreItem: {
+      cursor: "pointer",
+      p: 5,
+      px: 4,
+      alignItems: "center",
+      gap: 2,
+      height: 60,
+    },
+    actionButton: {
+      borderRadius: 16,
+    },
   };
 };

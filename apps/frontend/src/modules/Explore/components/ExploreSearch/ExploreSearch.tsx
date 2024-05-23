@@ -1,9 +1,16 @@
 import { Search } from "@mui/icons-material";
 import { Stack, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { useDebounce } from "../../../../utils/useDebounce";
 
-export const ExploreSearch = () => {
-  const [searchText, setSearchText] = useState("");
+export const ExploreSearch = ({
+  handleOnSearch,
+}: {
+  handleOnSearch: (text: string) => void;
+}) => {
+  const setSearchDebounce = useDebounce((text: string) => {
+    handleOnSearch(text);
+  }, 700);
+
   return (
     <Stack
       p={3}
@@ -23,8 +30,7 @@ export const ExploreSearch = () => {
         size="small"
         placeholder="Search"
         fullWidth
-        value={searchText}
-        onChange={(e) => setSearchText(e.target.value)}
+        onChange={(e) => setSearchDebounce(e.target.value)}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             console.log("clicked");
