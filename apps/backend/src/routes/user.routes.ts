@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   changeCurrentPassword,
   getCurrentUser,
+  getExploreUsers,
   getUsers,
   loginUser,
   logoutUser,
@@ -15,6 +16,7 @@ import { upload } from "../middlewares/multer.middleware.js";
 const router = Router();
 
 router.route("/getUsers").get(verifyJWT, getUsers);
+router.route("/getExploreUsers").get(verifyJWT, getExploreUsers);
 router.route("/current-user").get(verifyJWT, getCurrentUser);
 
 router.route("/register").post(upload.single("avatar"), registerUser);

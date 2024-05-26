@@ -4,7 +4,7 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 import { axiosAuth } from "../../Auth";
-import { GET_USERS } from "./ExploreAPIRoutes";
+import { GET_EXPLORE_USERS } from "./ExploreAPIRoutes";
 
 interface UseGetUsersType {
   includeCurrentUser?: boolean;
@@ -12,14 +12,14 @@ interface UseGetUsersType {
   searchText?: string;
 }
 
-const getUsers = ({
+const getExploreUsers = ({
   includeCurrentUser,
   searchText,
 }: {
   includeCurrentUser?: boolean;
   searchText?: string;
 }) => {
-  return axiosAuth.get(GET_USERS, {
+  return axiosAuth.get(GET_EXPLORE_USERS, {
     params: {
       includeCurrentUser,
       query: searchText,
@@ -27,14 +27,14 @@ const getUsers = ({
   });
 };
 
-export const useGetUsers = ({
+export const useGetExploreUsers = ({
   queryParams,
   includeCurrentUser,
   searchText,
 }: UseGetUsersType): UseQueryResult<any> => {
   return useQuery({
-    queryKey: ["users", includeCurrentUser, searchText],
-    queryFn: () => getUsers({ includeCurrentUser, searchText }),
+    queryKey: ["exploreUsers", includeCurrentUser, searchText],
+    queryFn: () => getExploreUsers({ includeCurrentUser, searchText }),
     select: (ele: any) => ele.data.data,
     ...queryParams,
   });

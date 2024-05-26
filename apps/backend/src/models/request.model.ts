@@ -1,6 +1,11 @@
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 
-const requestSchema = new mongoose.Schema(
+interface IUser {
+  sender: Types.ObjectId;
+  receiver: Types.ObjectId;
+}
+
+const requestSchema = new mongoose.Schema<IUser>(
   {
     sender: {
       type: mongoose.Schema.Types.ObjectId,
@@ -9,9 +14,6 @@ const requestSchema = new mongoose.Schema(
     receiver: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-    },
-    status: {
-      type: String,
     },
   },
   { timestamps: true }

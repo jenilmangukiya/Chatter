@@ -29,6 +29,7 @@
     "packages/*"
   ],
   "dependencies": {
-    "@mui/icons-material": "^5.15.16"
+    "@mui/icons-material": "^5.15.16",
+    "@tanstack/react-query-devtools": "^5.39.0"
   }
 }

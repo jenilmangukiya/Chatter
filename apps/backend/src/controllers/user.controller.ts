@@ -368,3 +368,92 @@ export const getUsers = asyncHandler(
     res.status(200).json(new ApiResponse(200, userPaginated));
   }
 );
+
+export const getExploreUsers = asyncHandler(
+  async (req: RequestExpress, res: Response) => {
+    const {
+      page = 1,
+      limit = 10,
+      query,
+      sortBy,
+      sortType,
+    } = req.query as QueryParams;
+    const includeCurrentUser = req.query?.includeCurrentUser;
+
+    const aggregation: any = [];
+
+    if (!includeCurrentUser) {
+      aggregation.push({
+        $match: {
+          email: {
+            $ne: req.user.email,
+          },
+        },
+      });
+    }
+
+    if (query) {
+      aggregation.push({
+        $match: {
+          $or: [
+            { email: { $regex: new RegExp(query, "i") } },
+            { fullName: { $regex: new RegExp(query, "i") } },
+          ],
+        },
+      });
+    }
+
+    aggregation.push(
+      {
+        $lookup: {
+          from: "requests",
+          let: {
+            userId: "$_id",
+          },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $or: [
+                    { $eq: ["$sender", "$$userId"] },
+
+                    { $eq: ["$receiver", "$$userId"] },
+                  ],
+                },
+              },
+            },
+          ],
+          as: "result",
+        },
+      },
+      {
+        $match: {
+          result: { $eq: [] }, // Filter users who have no requests
+        },
+      }
+    );
+
+    if (
+      sortBy &&
+      ["email", "fullName", "views", "createdAt"].includes(sortBy)
+    ) {
+      const sortOrder = sortType?.toLowerCase() === "desc" ? -1 : 1;
+      aggregation.push({
+        $sort: {
+          [sortBy]: sortOrder,
+        },
+      });
+    }
+
+    const options = {
+      page: +page,
+      limit: +limit,
+    };
+
+    const pipeline = User.aggregate(aggregation);
+
+    const userPaginated = await User.aggregatePaginate(pipeline, options);
+
+    res.status(200).json(new ApiResponse(200, userPaginated));
+  }
+);
