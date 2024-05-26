@@ -13,7 +13,7 @@ export const useStyle = () => {
     exploreItem: {
       cursor: "pointer",
       p: 5,
-      px: 4,
+      px: 2,
       alignItems: "center",
       gap: 2,
       height: 60,

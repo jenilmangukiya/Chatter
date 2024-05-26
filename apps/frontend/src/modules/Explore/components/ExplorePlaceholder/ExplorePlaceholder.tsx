@@ -1,7 +1,15 @@
 import { Button, Stack, Typography } from "@mui/material";
+import { useState } from "react";
 import chatSvg from "./../../../../assets/chat.svg";
+import { CreateGroupDialog } from "./components";
 
 export const ExplorePlaceholder = () => {
+  const [open, setOpen] = useState(false);
+
+  const handleOnGroupClick = () => {
+    setOpen(true);
+  };
+
   return (
     <Stack
       direction={"column"}
@@ -26,9 +34,15 @@ export const ExplorePlaceholder = () => {
       >
         Message someone and chat right now.
       </Typography>
-      <Button variant="contained" sx={{ borderRadius: "32px" }} size="large">
+      <Button
+        variant="contained"
+        sx={{ borderRadius: "32px" }}
+        size="large"
+        onClick={handleOnGroupClick}
+      >
         Create group
       </Button>
+      <CreateGroupDialog open={open} setOpen={setOpen} />
     </Stack>
   );
 };
