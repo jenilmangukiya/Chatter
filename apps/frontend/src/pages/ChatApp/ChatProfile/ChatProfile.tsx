@@ -1,5 +1,5 @@
-import { Chat } from "../../../modules";
+import { Profile } from "../../../components/Profile";
 
 export const ChatProfile = () => {
-  return <Chat />;
+  return <Profile />;
 };

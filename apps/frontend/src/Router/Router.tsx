@@ -31,8 +31,8 @@ export const Router = () => {
           >
             <Route index element={<Navigate to="/chat" replace />} />
             <Route path="/chat" element={<ChatApp />}>
-              <Route path={":id"} element={<Chat />}></Route>
-              <Route path=":id/profile" element={<ChatProfile />} />
+              <Route path={":id"} element={<Chat />} />
+              <Route path=":id/profile/:userId" element={<ChatProfile />} />
             </Route>
             <Route path="/explore" element={<Explore />}>
               <Route path=":id/profile" element={<ExploreProfile />} />

@@ -27,7 +27,10 @@ export const ChatHeader = () => {
             J
           </Avatar>
           <Stack>
-            <Link to={`/chat/${id}/profile`} style={{ textDecoration: "none" }}>
+            <Link
+              to={`/chat/${id}/profile/124234`}
+              style={{ textDecoration: "none" }}
+            >
               <Typography
                 variant="body1"
                 fontWeight={600}

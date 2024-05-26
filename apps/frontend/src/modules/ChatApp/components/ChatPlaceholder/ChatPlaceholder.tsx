@@ -1,7 +1,9 @@
 import { Button, Stack, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import chatSvg from "./../../../../assets/chat.svg";
 
 export const ChatPlaceholder = () => {
+  const navigate = useNavigate();
   return (
     <Stack
       direction={"column"}
@@ -26,8 +28,15 @@ export const ChatPlaceholder = () => {
       >
         Message someone and chat right now.
       </Typography>
-      <Button variant="contained" sx={{ borderRadius: "32px" }} size="large">
-        Create group
+      <Button
+        variant="contained"
+        sx={{ borderRadius: "32px" }}
+        size="large"
+        onClick={() => {
+          navigate("/explore");
+        }}
+      >
+        Create friends & groups
       </Button>
     </Stack>
   );

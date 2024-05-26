@@ -70,7 +70,6 @@ export const CreateGroupDialog = ({
             />
             <Autocomplete
               multiple
-              size="medium"
               id="tags-standard"
               options={[{ title: "this is huge" }]}
               getOptionLabel={(option) => option.title}
