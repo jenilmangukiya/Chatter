@@ -1,9 +1,9 @@
 import {
   DeleteOutline,
-  GroupsOutlined,
   MessageOutlined,
-  NotificationsOutlined,
+  People,
   PersonOutline,
+  Search,
 } from "@mui/icons-material";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import { IconButton, Stack } from "@mui/material";
@@ -45,18 +45,14 @@ export const Sidebar = () => {
           <IconButton aria-label="Profile">
             <NavLink to={"/explore"}>
               {({ isActive }) => (
-                <GroupsOutlined
-                  sx={{ color: isActive ? "primary.main" : "white" }}
-                />
+                <Search sx={{ color: isActive ? "primary.main" : "white" }} />
               )}
             </NavLink>
           </IconButton>
           <IconButton aria-label="Profile">
             <NavLink to={"/notifications"}>
               {({ isActive }) => (
-                <NotificationsOutlined
-                  sx={{ color: isActive ? "primary.main" : "white" }}
-                />
+                <People sx={{ color: isActive ? "primary.main" : "white" }} />
               )}
             </NavLink>
           </IconButton>

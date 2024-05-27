@@ -9,7 +9,9 @@ import {
   ChatProfile,
   Explore,
   ExploreProfile,
+  FriendRequests,
   Notifications,
+  RequestsSent,
   SignIn,
   SignUp,
 } from "../pages";
@@ -37,7 +39,11 @@ export const Router = () => {
             <Route path="/explore" element={<Explore />}>
               <Route path=":id/profile" element={<ExploreProfile />} />
             </Route>
-            <Route path="/notifications" element={<Notifications />}></Route>
+            <Route path="/notifications" element={<Notifications />}>
+              <Route index element={<Navigate to="friend-requests" />} />
+              <Route path="friend-requests" element={<FriendRequests />} />
+              <Route path="requests-sent" element={<RequestsSent />} />
+            </Route>
             <Route path="/deleted" element={<p>Delete</p>}></Route>
           </Route>
 
