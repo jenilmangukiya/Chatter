@@ -415,9 +415,18 @@ export const getExploreUsers = asyncHandler(
               $match: {
                 $expr: {
                   $or: [
-                    { $eq: ["$sender", "$$userId"] },
-
-                    { $eq: ["$receiver", "$$userId"] },
+                    {
+                      $and: [
+                        { $eq: ["$sender", req.user._id] },
+                        { $eq: ["$receiver", "$$userId"] },
+                      ],
+                    },
+                    {
+                      $and: [
+                        { $eq: ["$receiver", req.user._id] },
+                        { $eq: ["$sender", "$$userId"] },
+                      ],
+                    },
                   ],
                 },
               },
