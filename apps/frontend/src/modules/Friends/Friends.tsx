@@ -1,22 +1,32 @@
 import { Divider, Stack, Typography } from "@mui/material";
 import { NavLink, useOutlet } from "react-router-dom";
+import PageLoader from "../../components/PageLoader";
+import { useGetFriendRequest } from "../../services";
 import { FriendsPlaceholder } from "./components/FriendsPlaceholder";
 import { useStyle } from "./useStyle";
 
 export const Friends = () => {
   const outlet = useOutlet();
   const { notificationCount, bottomSidebar } = useStyle();
+  const { data: requestsReceived, isLoading: isLoadingReceived } =
+    useGetFriendRequest({
+      type: "received",
+    });
+
+  const { data: requestsSent, isLoading: isLoadingSent } = useGetFriendRequest({
+    type: "sent",
+  });
 
   const menus = [
     {
       title: "Friend requests",
       href: "/friends/friend-requests",
-      notificationCount: 0,
+      notificationCount: requestsReceived?.length,
     },
     {
       title: "Friend requests sent",
       href: "/friends/requests-sent",
-      notificationCount: 2,
+      notificationCount: requestsSent?.length,
     },
   ];
 
@@ -38,35 +48,37 @@ export const Friends = () => {
           </Typography>
         </Stack>
         <Stack sx={bottomSidebar}>
-          {menus.map((item) => {
-            return (
-              <>
-                <NavLink to={item.href} style={{ textDecoration: "none" }}>
-                  {({ isActive }) => {
-                    return (
-                      <Stack
-                        direction={"row"}
-                        justifyContent={"space-between"}
-                        p={2}
-                        bgcolor={isActive ? "#e9e9e9" : ""}
-                      >
-                        <Typography
-                          color={isActive ? "primary.main" : "text.primary"}
-                          fontWeight={isActive ? 600 : 400}
+          {(isLoadingReceived || isLoadingSent) && <PageLoader />}
+          {!(isLoadingReceived || isLoadingSent) &&
+            menus.map((item) => {
+              return (
+                <>
+                  <NavLink to={item.href} style={{ textDecoration: "none" }}>
+                    {({ isActive }) => {
+                      return (
+                        <Stack
+                          direction={"row"}
+                          justifyContent={"space-between"}
+                          p={2}
+                          bgcolor={isActive ? "#e9e9e9" : ""}
                         >
-                          {item.title}
-                        </Typography>
-                        <Stack sx={notificationCount}>
-                          {item.notificationCount}
+                          <Typography
+                            color={isActive ? "primary.main" : "text.primary"}
+                            fontWeight={isActive ? 600 : 400}
+                          >
+                            {item.title}
+                          </Typography>
+                          <Stack sx={notificationCount}>
+                            {item.notificationCount}
+                          </Stack>
                         </Stack>
-                      </Stack>
-                    );
-                  }}
-                </NavLink>
-                <Divider variant="middle" />
-              </>
-            );
-          })}
+                      );
+                    }}
+                  </NavLink>
+                  <Divider variant="middle" />
+                </>
+              );
+            })}
         </Stack>
       </Stack>
       <Stack flex={1} gap={1}>

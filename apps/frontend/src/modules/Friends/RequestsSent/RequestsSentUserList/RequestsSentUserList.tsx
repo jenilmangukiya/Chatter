@@ -14,7 +14,7 @@ export const RequestsSentUserList = () => {
     <Stack sx={chatListContainer}>
       {isUserListLoading && <PageLoader />}
       {usersList &&
-        usersList?.docs.map((item: any) => {
+        usersList?.map((item: any) => {
           return <RequestsSentUserItem item={item} />;
         })}
     </Stack>
