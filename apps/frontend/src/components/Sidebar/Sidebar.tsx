@@ -50,7 +50,7 @@ export const Sidebar = () => {
             </NavLink>
           </IconButton>
           <IconButton aria-label="Profile">
-            <NavLink to={"/notifications"}>
+            <NavLink to={"/friends"}>
               {({ isActive }) => (
                 <People sx={{ color: isActive ? "primary.main" : "white" }} />
               )}

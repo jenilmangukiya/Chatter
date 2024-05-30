@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { Profile } from "../../../components/Profile";
 
-export const NotificationsProfile = () => {
+export const FriendsProfile = () => {
   const navigate = useNavigate();
   const handleOnBackButtonClick = () => {
-    navigate("/notifications");
+    navigate("/friends");
   };
   return <Profile onBackButtonClick={handleOnBackButtonClick} />;
 };

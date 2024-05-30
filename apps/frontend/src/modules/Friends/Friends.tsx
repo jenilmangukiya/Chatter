@@ -1,21 +1,21 @@
 import { Divider, Stack, Typography } from "@mui/material";
 import { NavLink, useOutlet } from "react-router-dom";
-import { NotificationPlaceholder } from "./components/NotificationPlaceholder";
+import { FriendsPlaceholder } from "./components/FriendsPlaceholder";
 import { useStyle } from "./useStyle";
 
-export const Notifications = () => {
+export const Friends = () => {
   const outlet = useOutlet();
   const { notificationCount, bottomSidebar } = useStyle();
 
   const menus = [
     {
       title: "Friend requests",
-      href: "/notifications/friend-requests",
+      href: "/friends/friend-requests",
       notificationCount: 0,
     },
     {
       title: "Friend requests sent",
-      href: "/notifications/requests-sent",
+      href: "/friends/requests-sent",
       notificationCount: 2,
     },
   ];
@@ -70,7 +70,7 @@ export const Notifications = () => {
         </Stack>
       </Stack>
       <Stack flex={1} gap={1}>
-        {outlet || <NotificationPlaceholder />}
+        {outlet || <FriendsPlaceholder />}
       </Stack>
     </Stack>
   );

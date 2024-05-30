@@ -3,7 +3,7 @@ import { useState } from "react";
 import chatSvg from "./../../../../assets/chat.svg";
 import { CreateGroupDialog } from "./components";
 
-export const NotificationPlaceholder = () => {
+export const FriendsPlaceholder = () => {
   const [open, setOpen] = useState(false);
 
   const handleOnGroupClick = () => {

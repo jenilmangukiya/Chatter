@@ -10,7 +10,7 @@ import {
   Explore,
   ExploreProfile,
   FriendRequests,
-  Notifications,
+  Friends,
   RequestsSent,
   SignIn,
   SignUp,
@@ -39,7 +39,7 @@ export const Router = () => {
             <Route path="/explore" element={<Explore />}>
               <Route path=":id/profile" element={<ExploreProfile />} />
             </Route>
-            <Route path="/notifications" element={<Notifications />}>
+            <Route path="/friends" element={<Friends />}>
               <Route index element={<Navigate to="friend-requests" />} />
               <Route path="friend-requests" element={<FriendRequests />} />
               <Route path="requests-sent" element={<RequestsSent />} />
