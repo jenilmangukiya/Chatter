@@ -172,6 +172,7 @@ export const approveRequest = asyncHandler(
       [
         {
           isGroupChat: false,
+          groupTitle: "",
         },
       ],
       { session: session }
