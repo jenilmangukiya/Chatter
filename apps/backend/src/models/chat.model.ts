@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
-const chatSchema = new mongoose.Schema(
+interface IChat {
+  isGroupChat: boolean;
+}
+
+const chatSchema = new mongoose.Schema<IChat>(
   {
     isGroupChat: {
       type: Boolean,

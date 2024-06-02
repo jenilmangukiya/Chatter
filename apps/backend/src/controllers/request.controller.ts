@@ -1,5 +1,7 @@
 import { Response } from "express";
 import mongoose, { PipelineStage } from "mongoose";
+import { Chat } from "../models/chat.model.js";
+import { ChatMember } from "../models/chatMember.model.js";
 import { Request } from "../models/request.model.js";
 import { User } from "../models/user.model.js";
 import { ApiError } from "../utils/ApiError.js";
@@ -143,5 +145,71 @@ export const cancelFriendRequest = asyncHandler(
     }
 
     res.status(204).json(new ApiResponse(204, {}));
+  }
+);
+
+export const approveRequest = asyncHandler(
+  async (req: RequestExpress, res: Response) => {
+    const { requestId } = req.params;
+
+    // check if the requestId Id is in correct format
+    if (!mongoose.Types.ObjectId.isValid(requestId))
+      throw new ApiError(404, "Invalid Request");
+
+    const isRequestExist: any = await Request.findOne({
+      _id: requestId,
+      receiver: req.user._id,
+    });
+
+    if (!isRequestExist) {
+      throw new ApiError(401, "Unauthorized");
+    }
+
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
+    const ChatData: any = await Chat.create(
+      [
+        {
+          isGroupChat: false,
+        },
+      ],
+      { session: session }
+    );
+
+    const newChatMembers = await ChatMember.insertMany(
+      [
+        {
+          chat: ChatData[0]._id,
+          user: req.user._id,
+        },
+        {
+          chat: ChatData[0]._id,
+          user: isRequestExist?.sender,
+        },
+      ],
+      { session }
+    );
+
+    if (!newChatMembers) {
+      await session.abortTransaction();
+      session.endSession();
+      throw new ApiError(500, "Something went wrong And rollback 1");
+    }
+
+    const deleteRequest = await Request.findByIdAndDelete(requestId, {
+      session,
+    });
+
+    if (!deleteRequest) {
+      await session.abortTransaction();
+      session.endSession();
+      throw new ApiError(500, "Something went wrong And rollback");
+    }
+
+    await session.commitTransaction();
+    session.endSession();
+
+    res.status(200).json(new ApiResponse(200, {}));
   }
 );

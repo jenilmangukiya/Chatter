@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  approveRequest,
   cancelFriendRequest,
   getRequests,
   sendFriendRequest,
@@ -14,5 +15,7 @@ router
   .post(verifyJWT, sendFriendRequest);
 
 router.route("/:requestId").delete(verifyJWT, cancelFriendRequest);
+
+router.route("/approveRequest/:requestId").post(verifyJWT, approveRequest);
 
 export default router;
