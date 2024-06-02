@@ -1,21 +1,20 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useSnackbar } from "../../../../../components/SnackbarAlert";
-import { useSendFriendRequest } from "../../../../../services";
+import { useCancelFriendRequest } from "../../../../../services";
 
 export const useRequestsSentUserItem = () => {
   const queryClient = useQueryClient();
 
   const { setSnackbarConfig } = useSnackbar();
 
-  const { mutate, isPending: isSendRequestPending } = useSendFriendRequest({
+  const { mutate, isPending: isCancelRequestPending } = useCancelFriendRequest({
     onSuccess: (e) => {
-      console.log("e", e);
       setSnackbarConfig({
-        message: e.data.message,
+        message: "Request canceled successfully",
         open: true,
         severity: "success",
       });
-      queryClient.invalidateQueries({ queryKey: ["exploreUsers"] });
+      queryClient.invalidateQueries({ queryKey: ["requests", "sent"] });
     },
     onError: (e: any) => {
       setSnackbarConfig({
@@ -26,20 +25,18 @@ export const useRequestsSentUserItem = () => {
     },
   });
 
-  const handleSendFriendRequest = async (
+  const handleCancelFriendRequest = async (
     event: React.MouseEvent<HTMLElement>,
-    userId: string
+    requestId: string
   ) => {
     event.preventDefault();
     event.stopPropagation();
 
-    await mutate({
-      userId: userId,
-    });
+    await mutate(requestId);
   };
 
   return {
-    handleSendFriendRequest,
-    isSendRequestPending,
+    handleCancelFriendRequest,
+    isCancelRequestPending,
   };
 };
