@@ -87,7 +87,6 @@ export const sendFriendRequest = asyncHandler(
       receiver: userId,
     });
 
-    console.log("doesRequestExist", doesRequestExist);
     if (doesRequestExist) {
       throw new ApiError(400, "Request already sended");
     }
@@ -104,5 +103,45 @@ export const sendFriendRequest = asyncHandler(
     res
       .status(201)
       .json(new ApiResponse(201, request, "Request sent successfully"));
+  }
+);
+
+export const cancelFriendRequest = asyncHandler(
+  async (req: RequestExpress, res: Response) => {
+    const { requestId } = req.params;
+
+    // check if the requestId Id is in correct format
+    if (!mongoose.Types.ObjectId.isValid(requestId))
+      throw new ApiError(404, "Invalid Request");
+
+    const isRequestExist: any = await Request.find({
+      $and: [
+        {
+          _id: requestId,
+        },
+        {
+          $or: [
+            {
+              sender: req.user._id,
+            },
+            {
+              receiver: req.user._id,
+            },
+          ],
+        },
+      ],
+    });
+
+    if (!isRequestExist || isRequestExist.length <= 0) {
+      throw new ApiError(401, "Unauthorized");
+    }
+
+    const request = await Request.findByIdAndDelete(requestId);
+
+    if (!request) {
+      throw new ApiError(404, "Request not found");
+    }
+
+    res.status(204).json(new ApiResponse(204, {}));
   }
 );
