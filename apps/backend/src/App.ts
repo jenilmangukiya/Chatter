@@ -22,6 +22,9 @@ import requestRouter from "./routes/request.routes.js";
 import userRouter from "./routes/user.routes.js";
 
 // Routes Declaration
+app.use("/", (req, res) => {
+  res.status(200).json({ status: "success", message: "success" });
+});
 app.use("/api/v1/healthCheck", healthCheckRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/requests", requestRouter);
