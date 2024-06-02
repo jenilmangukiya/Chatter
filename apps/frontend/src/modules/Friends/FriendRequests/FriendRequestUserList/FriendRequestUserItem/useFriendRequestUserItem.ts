@@ -1,17 +1,20 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useSnackbar } from "../../../../../components/SnackbarAlert";
-import { useCancelFriendRequest } from "../../../../../services";
+import {
+  useApproveFriendRequest,
+  useCancelFriendRequest,
+} from "../../../../../services";
 
 export const useFriendRequestUserItem = () => {
   const queryClient = useQueryClient();
 
   const { setSnackbarConfig } = useSnackbar();
 
-  const { mutate: mutateCancelRequest, isPending: isCancelRequestPending } =
-    useCancelFriendRequest({
+  const { mutate: mutateApproveRequest, isPending: isApproveRequestPending } =
+    useApproveFriendRequest({
       onSuccess: (e) => {
         setSnackbarConfig({
-          message: "Request Successfully removed",
+          message: "Friend Request Approved",
           open: true,
           severity: "success",
         });
@@ -26,7 +29,26 @@ export const useFriendRequestUserItem = () => {
       },
     });
 
-  const handleSendFriendRequest = async (
+  const { mutate: mutateCancelRequest, isPending: isCancelRequestPending } =
+    useCancelFriendRequest({
+      onSuccess: (e) => {
+        setSnackbarConfig({
+          message: "Friend Request removed",
+          open: true,
+          severity: "success",
+        });
+        queryClient.invalidateQueries({ queryKey: ["requests", "received"] });
+      },
+      onError: (e: any) => {
+        setSnackbarConfig({
+          message: e.response.data.message,
+          open: true,
+          severity: "error",
+        });
+      },
+    });
+
+  const handleCancelFriendRequest = async (
     event: React.MouseEvent<HTMLElement>,
     requestId: string
   ) => {
@@ -36,8 +58,20 @@ export const useFriendRequestUserItem = () => {
     await mutateCancelRequest(requestId);
   };
 
+  const handleApproveFriendRequest = async (
+    event: React.MouseEvent<HTMLElement>,
+    requestId: string
+  ) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    await mutateApproveRequest(requestId);
+  };
+
   return {
-    handleSendFriendRequest,
+    handleCancelFriendRequest,
     isCancelRequestPending,
+    handleApproveFriendRequest,
+    isApproveRequestPending,
   };
 };

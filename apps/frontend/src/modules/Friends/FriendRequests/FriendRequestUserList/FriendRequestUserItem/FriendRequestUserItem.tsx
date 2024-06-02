@@ -6,8 +6,12 @@ import { useStyle } from "./useStyle";
 
 export const FriendRequestUserItem = ({ item }: { item: any }) => {
   const { exploreItem, actionButton } = useStyle();
-  const { handleSendFriendRequest, isCancelRequestPending } =
-    useFriendRequestUserItem();
+  const {
+    handleCancelFriendRequest,
+    isCancelRequestPending,
+    handleApproveFriendRequest,
+    isApproveRequestPending,
+  } = useFriendRequestUserItem();
 
   return (
     <div key={item._id}>
@@ -65,11 +69,13 @@ export const FriendRequestUserItem = ({ item }: { item: any }) => {
                     color={"success"}
                     size="small"
                     sx={actionButton}
-                    disabled={isCancelRequestPending}
-                    onClick={(e) => handleSendFriendRequest(e, item._id)}
+                    disabled={isApproveRequestPending}
+                    onClick={(e) =>
+                      handleApproveFriendRequest(e, item.requestId)
+                    }
                     startIcon={<PersonAdd />}
                   >
-                    {isCancelRequestPending ? "loading..." : "Accept "}
+                    {isApproveRequestPending ? "loading..." : "Accept"}
                   </Button>
                   <Button
                     variant="outlined"
@@ -77,7 +83,9 @@ export const FriendRequestUserItem = ({ item }: { item: any }) => {
                     size="small"
                     sx={actionButton}
                     disabled={isCancelRequestPending}
-                    onClick={(e) => handleSendFriendRequest(e, item.requestId)}
+                    onClick={(e) =>
+                      handleCancelFriendRequest(e, item.requestId)
+                    }
                     startIcon={<PersonRemove />}
                   >
                     {isCancelRequestPending ? "loading..." : "Remove"}
