@@ -1,15 +1,24 @@
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 
-const messageSchema = new mongoose.Schema(
+interface IChatMessage {
+  type: "image" | "message";
+  chat: Types.ObjectId;
+  sender: Types.ObjectId;
+  content: string;
+  attachment: string;
+}
+
+const messageSchema = new mongoose.Schema<IChatMessage>(
   {
     type: {
       type: String,
+      required: true,
     },
     chat: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Chat",
     },
-    Sender: {
+    sender: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },

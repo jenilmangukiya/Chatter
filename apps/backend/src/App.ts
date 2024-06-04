@@ -19,6 +19,7 @@ app.use(cookieParser());
 // Routes
 import chatRouter from "./routes/chat.routes.js";
 import healthCheckRouter from "./routes/healthCheck.routes.js";
+import messageRouter from "./routes/message.routes.js";
 import requestRouter from "./routes/request.routes.js";
 import userRouter from "./routes/user.routes.js";
 
@@ -27,5 +28,6 @@ app.use("/api/v1/healthCheck", healthCheckRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/requests", requestRouter);
 app.use("/api/v1/chats", chatRouter);
+app.use("/api/v1/messages", messageRouter);
 
 export { app };
