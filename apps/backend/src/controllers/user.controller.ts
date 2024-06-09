@@ -15,6 +15,7 @@ const cookiesOptions: CookieOptions = {
   secure: true,
   maxAge: 24 * 60 * 60 * 1000, // For 1d
   sameSite: "none",
+  domain: "chatter-frontend-indol.vercel.app",
 };
 
 const generateAccessAndRefreshToken = async (userId: string) => {
