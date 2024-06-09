@@ -1,10 +1,23 @@
 import { MoreHoriz, Search } from "@mui/icons-material";
-import { Avatar, Box, Button, Divider, Stack, Typography } from "@mui/material";
-import { green } from "@mui/material/colors";
+import {
+  Avatar,
+  AvatarGroup,
+  Box,
+  Button,
+  Divider,
+  Stack,
+  Typography,
+} from "@mui/material";
+import { red } from "@mui/material/colors";
 import { Link, useParams } from "react-router-dom";
+import { useAuth } from "../../../../../Auth";
 import { useStyle } from "./useStyle";
 
-export const ChatHeader = () => {
+export const ChatHeader = ({ chatData }: { chatData: any }) => {
+  const { user } = useAuth();
+  const { isGroupChat, users, groupTitle } = chatData;
+  const senderUser = users.find((item: any) => item._id !== user.userId);
+
   const { id } = useParams();
   const { callButton, profileButton } = useStyle();
 
@@ -19,13 +32,32 @@ export const ChatHeader = () => {
         sx={{ cursor: "pointer" }}
       >
         <Stack direction={"row"} gap={2}>
-          <Avatar
-            sx={{ bgcolor: green[500], width: 46, height: 46 }}
-            aria-label="recipe"
-            sizes="large"
-          >
-            J
-          </Avatar>
+          {!isGroupChat && (
+            <Avatar
+              sx={{ bgcolor: red[500], width: 46, height: 46 }}
+              aria-label="recipe"
+              sizes="large"
+              src={senderUser?.avatar}
+            >
+              {senderUser?.fullName[0]}
+            </Avatar>
+          )}
+          {isGroupChat && (
+            <AvatarGroup
+              max={2}
+              spacing={"small"}
+              total={chatData?.users?.length}
+            >
+              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+              <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
+              <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
+              <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
+              <Avatar
+                alt="Trevor Henderson"
+                src="/static/images/avatar/5.jpg"
+              />
+            </AvatarGroup>
+          )}
           <Stack>
             <Link
               to={`/chat/${id}/profile/124234`}
@@ -36,7 +68,7 @@ export const ChatHeader = () => {
                 fontWeight={600}
                 color={"text.primary"}
               >
-                John Doe
+                {!isGroupChat ? senderUser?.fullName : groupTitle}
               </Typography>
               <Typography variant="body2" color={"text.secondary"}>
                 Online

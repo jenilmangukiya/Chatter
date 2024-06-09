@@ -105,8 +105,8 @@ export const getChat = asyncHandler(
       },
     ]);
 
-    if (!chat) throw new ApiError(404, "Chat not found");
+    if (!chat?.[0]) throw new ApiError(404, "Chat not found");
 
-    res.status(200).json(new ApiResponse(200, chat));
+    res.status(200).json(new ApiResponse(200, chat[0]));
   }
 );

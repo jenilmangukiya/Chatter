@@ -13,12 +13,12 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <SnackbarAlertProvider>
-        <QueryClientProvider client={client}>
+      <QueryClientProvider client={client}>
+        <SnackbarAlertProvider>
           <Router />
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      </SnackbarAlertProvider>
+        </SnackbarAlertProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </ThemeProvider>
   );
 };

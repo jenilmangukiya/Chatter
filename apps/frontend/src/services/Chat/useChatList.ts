@@ -31,7 +31,6 @@ export const useChatList = ({
     select: (ele: any) => {
       const data = ele.data.data;
       return data.map((item: any) => {
-        console.log("object", item);
         if (item.isGroupChat) {
           return {
             id: item._id,
