@@ -20,7 +20,7 @@ export const Chat = () => {
           bgcolor={"white"}
           height={"calc(100vh - 64px - 100px - 60px)"}
           p={2}
-          direction={"column"}
+          direction={"column-reverse"}
           gap={1}
           sx={{ overflowY: "scroll" }}
         >

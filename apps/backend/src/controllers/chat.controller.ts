@@ -58,7 +58,6 @@ export const getUserChatsList = asyncHandler(
 export const getChat = asyncHandler(
   async (req: RequestExpress, res: Response) => {
     const { chatId } = req.params;
-    console.log("chatId", chatId);
 
     if (!mongoose.Types.ObjectId.isValid(chatId))
       throw new ApiError(404, "Invalid chatId");
