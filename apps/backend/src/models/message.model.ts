@@ -1,4 +1,5 @@
-import mongoose, { Types } from "mongoose";
+import mongoose, { AggregatePaginateModel, Types } from "mongoose";
+import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 
 interface IChatMessage {
   type: "image" | "message";
@@ -28,4 +29,9 @@ const messageSchema = new mongoose.Schema<IChatMessage>(
   { timestamps: true }
 );
 
-export const Message = mongoose.model("Message", messageSchema);
+messageSchema.plugin(mongooseAggregatePaginate);
+
+export const Message = mongoose.model<
+  IChatMessage,
+  AggregatePaginateModel<IChatMessage>
+>("Message", messageSchema);

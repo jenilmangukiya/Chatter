@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { sendMessage } from "../controllers/message.controller.js";
+import { getMessages, sendMessage } from "../controllers/message.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
-router.route("/").post(verifyJWT, sendMessage);
+router.route("/").get(verifyJWT, getMessages).post(verifyJWT, sendMessage);
 
 export default router;
