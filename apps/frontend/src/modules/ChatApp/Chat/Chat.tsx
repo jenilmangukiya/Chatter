@@ -1,15 +1,22 @@
 import { Stack } from "@mui/material";
+import { useAuth } from "../../../Auth";
 import PageLoader from "../../../components/PageLoader";
 import { ChatHeader, Message, SendChatActions } from "./components";
 import { useChat } from "./useChat";
 
 export const Chat = () => {
-  const { chatData, isChatLoading, isChatError } = useChat();
+  const {
+    chatData,
+    isChatLoading,
+    isChatError,
+    chatMessages,
+    isChatMessagesLoading,
+  } = useChat();
+  const { user } = useAuth();
 
   if (isChatLoading) {
     return <PageLoader />;
   }
-
   if (!isChatError)
     return (
       <Stack gap={1} position={"static"} height={"100%"}>
@@ -24,18 +31,18 @@ export const Chat = () => {
           gap={1}
           sx={{ overflowY: "scroll" }}
         >
-          <Message message="Hi" />
-          <Message message="How are you" />
-          <Message message="can we meet tomorrow?" fromSender={false} />
-          <Message message="I was thinking to do a meet today!" />
-          <Message message="At what time you will be free today?" />
-          <Message message="Hey!" fromSender={false} />
-          <Message
-            message="Actually i am not available today. 🙂"
-            fromSender={false}
-          />
-          <Message message="can we meet tomorrow?" fromSender={false} />
-          <Message message="I am free at that time?" fromSender={false} />
+          {isChatMessagesLoading && <PageLoader />}
+          {!isChatMessagesLoading &&
+            chatMessages?.docs &&
+            chatMessages?.docs?.map((item: any) => {
+              return (
+                <Message
+                  message={item.content}
+                  fromSender={item.sender !== user.userId}
+                  time={item.createdAt}
+                />
+              );
+            })}
         </Stack>
         <SendChatActions />
       </Stack>

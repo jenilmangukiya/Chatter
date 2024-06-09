@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSnackbar } from "../../../components";
-import { useGetChat } from "../../../services";
+import { useGetChat, useGetChatMessages } from "../../../services";
 
 export const useChat = () => {
   const { id: chatId } = useParams();
@@ -23,6 +23,18 @@ export const useChat = () => {
     },
   });
 
+  const { data: chatMessages, isLoading: isChatMessagesLoading } =
+    useGetChatMessages({
+      chatId: chatId || undefined,
+      queryParams: {
+        throwOnError: () => {
+          return false;
+        },
+        enabled: !!chatId,
+        retry: 1,
+      },
+    });
+
   useEffect(() => {
     if (isChatError) {
       setSnackbarConfig({
@@ -34,5 +46,11 @@ export const useChat = () => {
     }
   }, [isChatError, setSnackbarConfig, navigate]);
 
-  return { chatData, isChatLoading, isChatError };
+  return {
+    chatData,
+    isChatLoading,
+    isChatError,
+    chatMessages,
+    isChatMessagesLoading,
+  };
 };

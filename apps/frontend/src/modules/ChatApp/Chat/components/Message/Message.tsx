@@ -1,9 +1,11 @@
 import { Avatar, Box, Stack, Typography } from "@mui/material";
 import { red } from "@mui/material/colors";
+import moment from "moment";
 
 export const Message = ({
   message = "Hello how are you",
   fromSender = true,
+  time = "",
 }) => {
   return (
     <Box>
@@ -37,7 +39,7 @@ export const Message = ({
           >
             {message}
           </Box>
-          <Typography variant="caption">5:12 PM</Typography>
+          <Typography variant="caption">{moment(time).fromNow()}</Typography>
         </Stack>
       </Stack>
     </Box>

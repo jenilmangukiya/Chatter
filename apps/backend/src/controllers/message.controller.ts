@@ -1,4 +1,5 @@
 import { Response } from "express";
+import { ObjectId } from "mongodb";
 import mongoose from "mongoose";
 import { ChatMember } from "../models/chatMember.model.js";
 import { Message } from "../models/message.model.js";
@@ -56,7 +57,7 @@ export const getMessages = asyncHandler(
       sortBy,
       sortType = "desc",
     } = req.query as QueryParams;
-    const chatId = req.query?.chatId;
+    const chatId: any = req.query?.chatId || "";
 
     const aggregation: any = [];
 
@@ -70,7 +71,7 @@ export const getMessages = asyncHandler(
     if (query) {
       aggregation.push({
         $match: {
-          chat: chatId,
+          chat: new ObjectId(chatId.toString()),
         },
       });
     }
