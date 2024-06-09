@@ -10,6 +10,7 @@ export const ChatCard = ({
   totalMembers,
   isActive,
   isGroup,
+  avatar,
 }: {
   title: string;
   lastMessage?: string;
@@ -18,6 +19,7 @@ export const ChatCard = ({
   totalMembers?: number;
   isActive: boolean;
   isGroup?: boolean;
+  avatar?: string;
 }) => {
   const { notification, container } = useStyle();
   return (
@@ -27,6 +29,7 @@ export const ChatCard = ({
           sx={{ bgcolor: red[500], width: 46, height: 46 }}
           aria-label="recipe"
           sizes="large"
+          src={avatar}
         >
           {title[0]}
         </Avatar>

@@ -1,4 +1,4 @@
-import { CookieOptions, Response } from "express";
+import { Response } from "express";
 import jwt from "jsonwebtoken";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
@@ -10,12 +10,6 @@ import {
 import { RequestExpress } from "../utils/types.js";
 import { User } from "./../models/user.model.js";
 import { QueryParams } from "./types.js";
-
-const cookiesOptions: CookieOptions = {
-  secure: true,
-  maxAge: 24 * 60 * 60 * 1000, // For 1d
-  sameSite: "none",
-};
 
 const generateAccessAndRefreshToken = async (userId: string) => {
   try {
@@ -122,11 +116,6 @@ export const loginUser = asyncHandler(
 
     return res
       .status(200)
-      .cookie("accessToken", accessToken, cookiesOptions)
-      .cookie("refreshToken", refreshToken, {
-        ...cookiesOptions,
-        maxAge: 10 * 24 * 60 * 60 * 1000, // For 10d
-      })
       .json(
         new ApiResponse(
           200,
@@ -185,11 +174,6 @@ export const refreshAccessToken = asyncHandler(
 
       res
         .status(200)
-        .cookie("accessToken", accessToken, cookiesOptions)
-        .cookie("refreshToken", refreshToken, {
-          ...cookiesOptions,
-          maxAge: 10 * 24 * 60 * 60 * 1000, // For 10d
-        })
         .json(
           new ApiResponse(
             200,
@@ -305,8 +289,6 @@ export const logoutUser = asyncHandler(
 
     return res
       .status(200)
-      .clearCookie("accessToken", cookiesOptions)
-      .clearCookie("refreshToken", cookiesOptions)
       .json(new ApiResponse(200, {}, "User logged out successfully"));
   }
 );

@@ -1,8 +1,10 @@
 import axios from "axios";
+import { getCookie } from "../utils";
 
 const HEADERS: any = {
   "Content-Type": "application/json",
   Accept: "application/json",
+  Authorization: getCookie("accessToken") || "",
 };
 
 const instance = axios.create({

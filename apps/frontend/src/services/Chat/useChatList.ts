@@ -52,6 +52,7 @@ export const useChatList = ({
             unreadMessage: 0,
             isGroup: false,
             totalMembers: 0,
+            avatar: sender.avatar,
           };
         }
       });

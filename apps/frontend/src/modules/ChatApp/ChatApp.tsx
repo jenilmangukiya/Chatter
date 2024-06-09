@@ -33,6 +33,7 @@ export const ChatApp = () => {
                         totalMembers={item?.totalMembers}
                         unreadMessages={item.unreadMessage}
                         isGroup={item.isGroup}
+                        avatar={item.avatar}
                         key={item.id}
                       />
                     )}

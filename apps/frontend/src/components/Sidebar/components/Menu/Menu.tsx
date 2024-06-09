@@ -9,6 +9,7 @@ import {
 import React from "react";
 import { useAuth } from "../../../../Auth";
 import { useLogoutUser } from "../../../../services";
+import { removeCookie } from "../../../../utils";
 
 export const Menu = ({ anchorEl, setAnchorEl }: any) => {
   const { user, setIsAuthenticated } = useAuth();
@@ -20,6 +21,8 @@ export const Menu = ({ anchorEl, setAnchorEl }: any) => {
 
   const { mutate: logoutMutate } = useLogoutUser({
     onSuccess: () => {
+      removeCookie("accessToken");
+      removeCookie("refreshToken");
       setIsAuthenticated(false);
     },
   });
