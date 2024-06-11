@@ -68,13 +68,39 @@ export const getMessages = asyncHandler(
       );
     }
 
-    if (query) {
+    if (chatId) {
       aggregation.push({
         $match: {
           chat: new ObjectId(chatId.toString()),
         },
       });
     }
+
+    aggregation.push(
+      {
+        $lookup: {
+          from: "users",
+          localField: "sender",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      {
+        $unwind: "$user",
+      },
+      {
+        $addFields: {
+          username: "$user.fullName",
+          avatar: "$user.avatar",
+        },
+      },
+      {
+        $project: {
+          user: 0,
+          __v: 0,
+        },
+      }
+    );
 
     const sortOrder = sortType?.toLowerCase() === "desc" ? -1 : 1;
     aggregation.push({

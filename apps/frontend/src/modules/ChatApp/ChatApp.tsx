@@ -1,6 +1,7 @@
 import { Divider, Stack } from "@mui/material";
 import { NavLink, useOutlet } from "react-router-dom";
 import { ChatCard } from "../../components";
+import PageLoader from "../../components/PageLoader";
 import { ChatPlaceholder, ChatSearch } from "./components";
 import { useChatApp } from "./useChatApp";
 import { useStyle } from "./useStyle";
@@ -15,6 +16,7 @@ export const ChatApp = () => {
       <Stack sx={{ width: { md: "45%", lg: "34%" } }} gap={1}>
         <ChatSearch />
         <Stack sx={chatListContainer}>
+          {isChatListLoading && <PageLoader />}
           {!isChatListLoading &&
             chatListData &&
             chatListData.map((item: any) => {

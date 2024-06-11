@@ -17,6 +17,7 @@ export const Chat = () => {
   if (isChatLoading) {
     return <PageLoader />;
   }
+
   if (!isChatError)
     return (
       <Stack gap={1} position={"static"} height={"100%"}>
@@ -37,9 +38,12 @@ export const Chat = () => {
             chatMessages?.docs?.map((item: any) => {
               return (
                 <Message
+                  key={item._id}
                   message={item.content}
                   fromSender={item.sender !== user.userId}
                   time={item.createdAt}
+                  username={item.username}
+                  avatar={item.avatar}
                 />
               );
             })}

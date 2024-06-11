@@ -6,6 +6,8 @@ export const Message = ({
   message = "Hello how are you",
   fromSender = true,
   time = "",
+  username = "U",
+  avatar = "",
 }) => {
   return (
     <Box>
@@ -21,8 +23,9 @@ export const Message = ({
             sx={{ bgcolor: red[500], width: 46, height: 46 }}
             aria-label="recipe"
             sizes="large"
+            src={avatar}
           >
-            J
+            {username[0]}
           </Avatar>
         )}
         <Stack alignItems={fromSender ? "flex-start" : "flex-end"}>

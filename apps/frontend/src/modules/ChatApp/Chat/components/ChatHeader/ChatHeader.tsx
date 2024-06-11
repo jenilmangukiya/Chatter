@@ -60,7 +60,7 @@ export const ChatHeader = ({ chatData }: { chatData: any }) => {
           )}
           <Stack>
             <Link
-              to={`/chat/${id}/profile/124234`}
+              to={`/chat/${id}/profile/${senderUser._id}`}
               style={{ textDecoration: "none" }}
             >
               <Typography
@@ -77,7 +77,10 @@ export const ChatHeader = ({ chatData }: { chatData: any }) => {
           </Stack>
         </Stack>
         <Stack direction={"row"} gap={2} alignItems={"center"}>
-          <Link to={`/chat/${id}/profile`} style={{ textDecoration: "none" }}>
+          <Link
+            to={`/chat/${id}/profile/${senderUser._id}`}
+            style={{ textDecoration: "none" }}
+          >
             <Button variant="outlined" sx={profileButton}>
               Profile
             </Button>
