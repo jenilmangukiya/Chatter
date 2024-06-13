@@ -4,6 +4,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Router } from "./Router";
 import { SnackbarAlertProvider } from "./components/SnackbarAlert";
 import { theme } from "./components/Theme/theme";
+import { SocketProvider } from "./socket/SocketProvider";
 
 const App = () => {
   const client = new QueryClient({
@@ -14,9 +15,11 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <QueryClientProvider client={client}>
-        <SnackbarAlertProvider>
-          <Router />
-        </SnackbarAlertProvider>
+        <SocketProvider>
+          <SnackbarAlertProvider>
+            <Router />
+          </SnackbarAlertProvider>
+        </SocketProvider>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </ThemeProvider>

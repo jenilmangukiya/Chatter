@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { SnackbarContext } from "../../context/SnackbarContext";
+import { SnackbarContext } from "../../context/snackbar-context";
 import { SnackbarAlert } from "./SnackbarAlert";
 import { SnackbarAlertProps } from "./types";
 

@@ -42,3 +42,32 @@ export const verifyJWT = asyncHandler(
     }
   }
 );
+
+export const socketAuthenticator = async (socket: any, next: any) => {
+  try {
+    const authToken = socket.handshake.auth.token;
+
+    if (!authToken)
+      return next(new ApiError(401, "Please login to access this route"));
+
+    const decodedData: any = await jwt.verify(
+      authToken,
+      process.env.ACCESS_TOKEN_SECRET as jwt.Secret
+    );
+
+    if (!decodedData)
+      return next(new ApiError(401, "Please login to access this route"));
+
+    const user = await User.findById(decodedData._id);
+
+    if (!user)
+      return next(new ApiError(401, "Please login to access this route"));
+
+    socket.user = user;
+
+    return next();
+  } catch (error) {
+    console.log(error);
+    return next(new ApiError(401, "Please login to access this route"));
+  }
+};

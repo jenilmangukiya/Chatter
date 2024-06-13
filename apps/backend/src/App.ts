@@ -4,7 +4,7 @@ import express from "express";
 
 const app = express();
 
-const allowedOrigins = process.env.CORS_ORIGINS?.split(",");
+export const allowedOrigins = process.env.CORS_ORIGINS?.split(",");
 
 app.use(
   cors({
