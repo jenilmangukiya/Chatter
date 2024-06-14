@@ -28,7 +28,6 @@
   ],
   "dependencies": {
     "@mui/icons-material": "^5.15.16",
-    "@tanstack/react-query-devtools": "^5.39.0",
-    "uuid": "^10.0.0"
+    "@tanstack/react-query-devtools": "^5.39.0"
   }
 }
