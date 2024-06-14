@@ -12,10 +12,10 @@ const instance = axios.create({
 
 instance.interceptors.request.use((config: any) => {
   config.baseURL = import.meta.env.VITE_BASE_URL || "http://localhost:3001";
-  config.Authorization = getCookie("accessToken") || "";
   config.headers = {
     ...HEADERS,
     ...config.headers,
+    Authorization: getCookie("accessToken") || "",
   };
 
   return config;
