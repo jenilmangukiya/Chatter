@@ -13,7 +13,6 @@
   "devDependencies": {
     "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
-    "@types/uuid": "^9.0.8",
     "husky": "^9.0.11",
     "prettier": "^3.2.5",
     "turbo": "latest"
