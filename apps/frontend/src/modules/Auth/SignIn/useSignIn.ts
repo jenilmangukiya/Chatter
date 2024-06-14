@@ -2,10 +2,12 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../Auth/useAuth";
 import { useSnackbar } from "../../../components/SnackbarAlert";
 import { useLoginUser } from "../../../services";
+import { useSocket } from "../../../socket/useSocket";
 import { setCookie } from "../../../utils";
 
 export const useSignIn = () => {
   const navigate = useNavigate();
+  const socket = useSocket();
   const { setIsAuthenticated, setUser } = useAuth();
 
   const { setSnackbarConfig } = useSnackbar();
@@ -53,6 +55,7 @@ export const useSignIn = () => {
           fullName: user.fullName,
           userId: user._id,
         });
+        socket.connect();
         navigate("/chat");
       } else {
         setIsAuthenticated(false);

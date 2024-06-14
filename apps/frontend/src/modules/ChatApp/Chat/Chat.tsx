@@ -48,7 +48,11 @@ export const Chat = () => {
               );
             })}
         </Stack>
-        <SendChatActions />
+        <SendChatActions
+          chatMembers={chatData?.users
+            .filter((item: any) => item._id !== user.userId)
+            .map((item: any) => item?._id)}
+        />
       </Stack>
     );
 };

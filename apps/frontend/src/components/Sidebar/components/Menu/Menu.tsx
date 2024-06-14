@@ -9,10 +9,12 @@ import {
 import React from "react";
 import { useAuth } from "../../../../Auth";
 import { useLogoutUser } from "../../../../services";
+import { useSocket } from "../../../../socket/useSocket";
 import { removeCookie } from "../../../../utils";
 
 export const Menu = ({ anchorEl, setAnchorEl }: any) => {
   const { user, setIsAuthenticated } = useAuth();
+  const socket = useSocket();
   const open = Boolean(anchorEl);
 
   const handleClose = () => {
@@ -24,6 +26,7 @@ export const Menu = ({ anchorEl, setAnchorEl }: any) => {
       removeCookie("accessToken");
       removeCookie("refreshToken");
       setIsAuthenticated(false);
+      socket.close();
     },
   });
 

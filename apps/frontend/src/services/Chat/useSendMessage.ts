@@ -2,10 +2,10 @@ import { UseMutationOptions, useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
 import { axiosAuth } from "../../Auth";
-import { SEND_MESSAGE } from "./ChatAPIRoutes";
+import { SEND_MESSAGE_API } from "./ChatAPIRoutes";
 
 const sendMessage = async (data: any) => {
-  return await axiosAuth.post(SEND_MESSAGE, data);
+  return await axiosAuth.post(SEND_MESSAGE_API, data);
 };
 
 export const useSendMessage = (

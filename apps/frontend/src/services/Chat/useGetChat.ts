@@ -4,7 +4,7 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 import { axiosAuth } from "../../Auth";
-import { GET_CHAT } from "./ChatAPIRoutes";
+import { GET_CHAT_API } from "./ChatAPIRoutes";
 
 interface UseGetUsersType {
   queryParams?: Omit<UseQueryOptions, "queryKey">;
@@ -12,7 +12,7 @@ interface UseGetUsersType {
 }
 
 const getChat = ({ chatId }: { chatId?: string }) => {
-  return axiosAuth.get(GET_CHAT(chatId));
+  return axiosAuth.get(GET_CHAT_API(chatId));
 };
 
 export const useGetChat = ({

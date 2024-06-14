@@ -2,9 +2,12 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSendMessage } from "../../../../../services";
+import { useSocket } from "../../../../../socket/useSocket";
+import { NEW_MESSAGE } from "../../../../../utils/EVENTS";
 
-export const useSendChatActions = () => {
+export const useSendChatActions = ({ chatMembers }: { chatMembers: any }) => {
   const { id: chatId } = useParams();
+  const socket = useSocket();
   const [message, setMessage] = useState("");
   const queryClient = useQueryClient();
 
@@ -17,11 +20,8 @@ export const useSendChatActions = () => {
 
   const handleSendMessage = () => {
     if (message) {
-      mutate({
-        content: message,
-        chatId: chatId,
-        type: "message",
-      });
+      setMessage("");
+      socket.emit(NEW_MESSAGE, { chatId, members: chatMembers, message });
     }
   };
 

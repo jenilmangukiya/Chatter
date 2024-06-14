@@ -1,12 +1,23 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSnackbar } from "../../../components";
 import { useGetChat, useGetChatMessages } from "../../../services";
+import { useSocket } from "../../../socket/useSocket";
+import { NEW_MESSAGE } from "../../../utils/EVENTS";
 
 export const useChat = () => {
   const { id: chatId } = useParams();
+  const queryClient = useQueryClient();
   const { setSnackbarConfig } = useSnackbar();
   const navigate = useNavigate();
+  const socket = useSocket();
+
+  useEffect(() => {
+    socket.on(NEW_MESSAGE, (data) => {
+      queryClient.invalidateQueries({ queryKey: ["ChatMessages", chatId] });
+    });
+  }, []);
 
   const {
     data: chatData,

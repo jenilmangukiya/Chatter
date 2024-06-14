@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { Socket } from "socket.io-client";
 import { SocketContext } from "../context/socket-context";
 
 export const useSocket = () => {
@@ -7,5 +8,5 @@ export const useSocket = () => {
     throw new Error("Can not use useContext outside SocketProvider");
   }
 
-  return context;
+  return context as Socket;
 };
