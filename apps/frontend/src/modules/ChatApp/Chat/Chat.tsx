@@ -9,15 +9,20 @@ export const Chat = () => {
     chatData,
     isChatLoading,
     isChatError,
-    chatMessages,
     isChatMessagesLoading,
+    messages,
+    hasNextPage,
+    observerTarget,
+    setMessages,
+    setLocalMessages,
   } = useChat();
+
   const { user } = useAuth();
 
   if (isChatLoading) {
     return <PageLoader />;
   }
-
+  console.log("messages", messages);
   if (!isChatError)
     return (
       <Stack gap={1} position={"static"} height={"100%"}>
@@ -33,9 +38,21 @@ export const Chat = () => {
           sx={{ overflowY: "scroll" }}
         >
           {isChatMessagesLoading && <PageLoader />}
+          {/* {!isChatMessagesLoading &&
+            localMessages?.map((item: any) => {
+              return (
+                <Message
+                  key={item._id}
+                  message={item.content}
+                  fromSender={item.sender !== user.userId}
+                  time={item.createdAt}
+                  username={item.username}
+                  avatar={item.avatar}
+                />
+              );
+            })} */}
           {!isChatMessagesLoading &&
-            chatMessages?.docs &&
-            chatMessages?.docs?.map((item: any) => {
+            messages?.map((item: any) => {
               return (
                 <Message
                   key={item._id}
@@ -47,8 +64,15 @@ export const Chat = () => {
                 />
               );
             })}
+          {!isChatMessagesLoading && hasNextPage && (
+            <div ref={observerTarget}>
+              <Stack alignItems={"center"}>Loading...</Stack>
+            </div>
+          )}
         </Stack>
         <SendChatActions
+          setMessages={setMessages}
+          setLocalMessages={setLocalMessages}
           chatMembers={chatData?.users
             .filter((item: any) => item._id !== user.userId)
             .map((item: any) => item?._id)}

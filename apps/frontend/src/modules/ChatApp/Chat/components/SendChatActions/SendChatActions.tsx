@@ -3,7 +3,15 @@ import { IconButton, InputBase, Stack } from "@mui/material";
 import { useSendChatActions } from "./useSendChatActions";
 import { useStyle } from "./useStyle";
 
-export const SendChatActions = ({ chatMembers }: { chatMembers: any }) => {
+export const SendChatActions = ({
+  chatMembers,
+  setMessages,
+  setLocalMessages,
+}: {
+  chatMembers: any;
+  setMessages: any;
+  setLocalMessages: any;
+}) => {
   const { inputContainer, iconButton } = useStyle();
   const {
     message,
@@ -11,7 +19,7 @@ export const SendChatActions = ({ chatMembers }: { chatMembers: any }) => {
     handleSendMessage,
     handleMessageOnchange,
     isPending,
-  } = useSendChatActions({ chatMembers });
+  } = useSendChatActions({ chatMembers, setMessages, setLocalMessages });
 
   return (
     <Stack direction={"row"} width={"100%"} gap={1}>

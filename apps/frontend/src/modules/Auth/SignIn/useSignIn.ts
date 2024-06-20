@@ -23,7 +23,6 @@ export const useSignIn = () => {
       setIsAuthenticated(false);
     },
     onSuccess: (response) => {
-      console.log("response?.data?.data", response?.data?.data);
       // Set accessToken
       if (response?.data?.data?.accessToken) {
         const todayExpires = new Date();
