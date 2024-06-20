@@ -38,19 +38,6 @@ export const Chat = () => {
           sx={{ overflowY: "scroll" }}
         >
           {isChatMessagesLoading && <PageLoader />}
-          {/* {!isChatMessagesLoading &&
-            localMessages?.map((item: any) => {
-              return (
-                <Message
-                  key={item._id}
-                  message={item.content}
-                  fromSender={item.sender !== user.userId}
-                  time={item.createdAt}
-                  username={item.username}
-                  avatar={item.avatar}
-                />
-              );
-            })} */}
           {!isChatMessagesLoading &&
             messages?.map((item: any) => {
               return (
