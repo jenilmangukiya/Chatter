@@ -27,6 +27,8 @@
   ],
   "dependencies": {
     "@mui/icons-material": "^5.15.16",
-    "@tanstack/react-query-devtools": "^5.39.0"
+    "@reduxjs/toolkit": "^2.2.5",
+    "@tanstack/react-query-devtools": "^5.39.0",
+    "react-redux": "^9.1.2"
   }
 }

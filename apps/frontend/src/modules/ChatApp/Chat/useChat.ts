@@ -1,9 +1,11 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSnackbar } from "../../../components";
 import { getChatMessages, useGetChat } from "../../../services";
 import { useSocket } from "../../../socket/useSocket";
+import { resetNewMessageCount } from "../../../store/Chat/chatSlice";
 import { NEW_MESSAGE } from "../../../utils/EVENTS";
 
 export const useChat = () => {
@@ -11,21 +13,29 @@ export const useChat = () => {
   const observerTarget = useRef(null);
   const socket = useSocket();
 
+  const dispatch = useDispatch();
+
   const { setSnackbarConfig } = useSnackbar();
 
   const { id: chatId } = useParams();
   const [messages, setMessages] = useState<any>([]);
   const [localMessages, setLocalMessages] = useState<any>([]);
 
+  useEffect(() => {
+    dispatch(resetNewMessageCount(chatId));
+  }, []);
+
   const handelNewMessage = useCallback((data: any) => {
-    setMessages((oldMessages: any) => [data.message, ...oldMessages]);
-    setLocalMessages((oldMessages: any) => [data.message, ...oldMessages]);
+    if (data.chatId === chatId) {
+      setMessages((oldMessages: any) => [data.message, ...oldMessages]);
+      setLocalMessages((oldMessages: any) => [data.message, ...oldMessages]);
+    }
   }, []);
 
   useEffect(() => {
     socket.on(NEW_MESSAGE, handelNewMessage);
     return () => {
-      socket.off("new-chat-message", handelNewMessage);
+      socket.off(NEW_MESSAGE, handelNewMessage);
     };
   }, []);
 
@@ -86,7 +96,6 @@ export const useChat = () => {
       }
     },
     select: (data: any) => {
-      console.log("data", data);
       return data;
     },
   });

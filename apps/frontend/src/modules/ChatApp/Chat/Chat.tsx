@@ -22,7 +22,7 @@ export const Chat = () => {
   if (isChatLoading) {
     return <PageLoader />;
   }
-  console.log("messages", messages);
+
   if (!isChatError)
     return (
       <Stack gap={1} position={"static"} height={"100%"}>

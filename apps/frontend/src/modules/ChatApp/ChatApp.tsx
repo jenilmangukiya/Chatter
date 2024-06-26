@@ -9,7 +9,7 @@ import { useStyle } from "./useStyle";
 export const ChatApp = () => {
   const { chatListContainer } = useStyle();
   const outlet = useOutlet();
-  const { chatListData, isChatListLoading } = useChatApp();
+  const { isChatListLoading, finalChatList } = useChatApp();
 
   return (
     <Stack direction={"row"} width={"100%"} gap={1}>
@@ -18,8 +18,8 @@ export const ChatApp = () => {
         <Stack sx={chatListContainer}>
           {isChatListLoading && <PageLoader />}
           {!isChatListLoading &&
-            chatListData &&
-            chatListData.map((item: any) => {
+            finalChatList &&
+            finalChatList?.map((item: any) => {
               return (
                 <div key={item.id}>
                   <NavLink
