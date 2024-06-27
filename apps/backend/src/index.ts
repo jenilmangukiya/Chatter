@@ -3,7 +3,12 @@ import { createServer } from "node:http";
 import { Server } from "socket.io";
 import { v4 as uuidv4 } from "uuid";
 import { allowedOrigins, app } from "./App.js";
-import { NEW_MESSAGE, NEW_MESSAGE_ALERT } from "./constants/events.js";
+import {
+  MESSAGE_TYPING_START,
+  MESSAGE_TYPING_STOP,
+  NEW_MESSAGE,
+  NEW_MESSAGE_ALERT,
+} from "./constants/events.js";
 import { connectDB } from "./db/index.js";
 import { socketAuthenticator } from "./middlewares/auth.middleware.js";
 import { Message } from "./models/message.model.js";
@@ -74,6 +79,7 @@ io.on("connection", (socket: any) => {
         chatId,
         message: socketMessage,
       });
+
       io.to(membersSocket).emit(NEW_MESSAGE_ALERT, {
         chatId,
       });
@@ -83,6 +89,22 @@ io.on("connection", (socket: any) => {
       } catch (error: any) {
         throw new Error(error);
       }
+    }
+  );
+
+  socket.on(
+    MESSAGE_TYPING_START,
+    ({ members, chatId }: { members: any; chatId: string }) => {
+      const membersSocket = getSockets(members);
+      socket.to(membersSocket).emit(MESSAGE_TYPING_START, { chatId });
+    }
+  );
+
+  socket.on(
+    MESSAGE_TYPING_STOP,
+    ({ members, chatId }: { members: any; chatId: string }) => {
+      const membersSocket = getSockets(members);
+      socket.to(membersSocket).emit(MESSAGE_TYPING_STOP, { chatId });
     }
   );
 

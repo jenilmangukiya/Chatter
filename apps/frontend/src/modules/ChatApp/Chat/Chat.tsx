@@ -2,6 +2,7 @@ import { Stack } from "@mui/material";
 import { useAuth } from "../../../Auth";
 import PageLoader from "../../../components/PageLoader";
 import { ChatHeader, Message, SendChatActions } from "./components";
+import { TypingLoader } from "./components/TypingLoader";
 import { useChat } from "./useChat";
 
 export const Chat = () => {
@@ -15,6 +16,7 @@ export const Chat = () => {
     observerTarget,
     setMessages,
     setLocalMessages,
+    isUserTyping,
   } = useChat();
 
   const { user } = useAuth();
@@ -37,6 +39,22 @@ export const Chat = () => {
           gap={1}
           sx={{ overflowY: "scroll" }}
         >
+          {isUserTyping && (
+            <Stack alignItems={"flex-start"}>
+              <Stack
+                direction={"row"}
+                sx={{
+                  mt: 3,
+                  bgcolor: "#e6e6e6",
+                  padding: 2,
+                  py: 1.5,
+                  borderRadius: 12,
+                }}
+              >
+                <TypingLoader />
+              </Stack>
+            </Stack>
+          )}
           {isChatMessagesLoading && <PageLoader />}
           {!isChatMessagesLoading &&
             messages?.map((item: any) => {

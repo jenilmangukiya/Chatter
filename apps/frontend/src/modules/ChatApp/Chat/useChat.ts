@@ -6,7 +6,11 @@ import { useSnackbar } from "../../../components";
 import { getChatMessages, useGetChat } from "../../../services";
 import { useSocket } from "../../../socket/useSocket";
 import { resetNewMessageCount } from "../../../store/Chat/chatSlice";
-import { NEW_MESSAGE } from "../../../utils/EVENTS";
+import {
+  MESSAGE_TYPING_START,
+  MESSAGE_TYPING_STOP,
+  NEW_MESSAGE,
+} from "../../../utils/EVENTS";
 
 export const useChat = () => {
   const navigate = useNavigate();
@@ -21,21 +25,40 @@ export const useChat = () => {
   const [messages, setMessages] = useState<any>([]);
   const [localMessages, setLocalMessages] = useState<any>([]);
 
+  const [isUserTyping, setIsUserTyping] = useState(false);
+
   useEffect(() => {
     dispatch(resetNewMessageCount(chatId));
   }, []);
 
   const handelNewMessage = useCallback((data: any) => {
     if (data.chatId === chatId) {
+      setIsUserTyping(false);
       setMessages((oldMessages: any) => [data.message, ...oldMessages]);
       setLocalMessages((oldMessages: any) => [data.message, ...oldMessages]);
     }
   }, []);
 
+  const handelMessageTypingStart = useCallback((data: any) => {
+    if (data.chatId === chatId) {
+      setIsUserTyping(true);
+    }
+  }, []);
+
+  const handelMessageTypingStop = useCallback((data: any) => {
+    if (data.chatId === chatId) {
+      setIsUserTyping(false);
+    }
+  }, []);
+
   useEffect(() => {
     socket.on(NEW_MESSAGE, handelNewMessage);
+    socket.on(MESSAGE_TYPING_START, handelMessageTypingStart);
+    socket.on(MESSAGE_TYPING_STOP, handelMessageTypingStop);
     return () => {
       socket.off(NEW_MESSAGE, handelNewMessage);
+      socket.off(MESSAGE_TYPING_START, handelMessageTypingStart);
+      socket.off(MESSAGE_TYPING_STOP, handelMessageTypingStop);
     };
   }, []);
 
@@ -85,6 +108,7 @@ export const useChat = () => {
     queryKey: ["messages", chatId],
     queryFn: (pageParam) => getChatMessages(pageParam, chatId),
     initialPageParam: { page: 1, limit: 20 },
+    refetchOnWindowFocus: false,
     getNextPageParam: (res: any) => {
       if (res.data.data.hasNextPage) {
         return {
@@ -132,5 +156,6 @@ export const useChat = () => {
     observerTarget,
     setMessages,
     setLocalMessages,
+    isUserTyping,
   };
 };

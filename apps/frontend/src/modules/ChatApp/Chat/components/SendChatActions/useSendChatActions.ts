@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { useAuth } from "../../../../../Auth";
 import { useSendMessage } from "../../../../../services";
 import { useSocket } from "../../../../../socket/useSocket";
-import { NEW_MESSAGE } from "../../../../../utils/EVENTS";
+import {
+  MESSAGE_TYPING_START,
+  MESSAGE_TYPING_STOP,
+  NEW_MESSAGE,
+} from "../../../../../utils/EVENTS";
 
 export const useSendChatActions = ({
   chatMembers,
@@ -15,10 +19,12 @@ export const useSendChatActions = ({
   setMessages: any;
   setLocalMessages: any;
 }) => {
+  const timeoutRef = useRef<any>(null);
   const { id: chatId } = useParams();
   const socket = useSocket();
   const [message, setMessage] = useState("");
   const { user } = useAuth();
+  const [isIamTyping, setIsIamTyping] = useState(false);
 
   const { mutate, isPending } = useSendMessage({
     onSuccess: () => {
@@ -47,7 +53,19 @@ export const useSendChatActions = ({
   const handleMessageOnchange = (event: any) => {
     if (event.key === "Enter") {
       handleSendMessage();
+      return;
     }
+    if (!isIamTyping) {
+      socket.emit(MESSAGE_TYPING_START, { chatId, members: chatMembers });
+      setIsIamTyping(true);
+    }
+
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+
+    timeoutRef.current = setTimeout(() => {
+      socket.emit(MESSAGE_TYPING_STOP, { chatId, members: chatMembers });
+      setIsIamTyping(false);
+    }, 1000);
   };
 
   return {

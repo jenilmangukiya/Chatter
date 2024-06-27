@@ -6,11 +6,12 @@ export const Message = ({
   message = "Hello how are you",
   fromSender = true,
   time = "",
-  username = "U",
+  username = "",
   avatar = "",
+  ...rest
 }) => {
   return (
-    <Box>
+    <Box {...rest}>
       <Stack
         sx={{ float: fromSender ? "left" : "right" }}
         alignItems={"center"}
@@ -29,6 +30,9 @@ export const Message = ({
           </Avatar>
         )}
         <Stack alignItems={fromSender ? "flex-start" : "flex-end"}>
+          <Typography variant="caption">
+            {time && moment(time).fromNow()}
+          </Typography>
           <Box
             sx={{
               bgcolor: fromSender ? "#e6e6e6" : "primary.main",
@@ -42,7 +46,6 @@ export const Message = ({
           >
             {message}
           </Box>
-          <Typography variant="caption">{moment(time).fromNow()}</Typography>
         </Stack>
       </Stack>
     </Box>
