@@ -17,7 +17,7 @@ export const ExploreUserList = ({ searchText }: { searchText: string }) => {
       {isUserListLoading && <PageLoader />}
       {usersList &&
         usersList?.docs.map((item: any) => {
-          return <ExploreUserItem item={item} />;
+          return <ExploreUserItem item={item} key={item._id} />;
         })}
     </Stack>
   );

@@ -15,7 +15,7 @@ import { upload } from "../middlewares/multer.middleware.js";
 
 const router = Router();
 
-router.route("/getUsers").get(verifyJWT, getUsers);
+router.route("/").get(verifyJWT, getUsers);
 router.route("/getExploreUsers").get(verifyJWT, getExploreUsers);
 router.route("/current-user").get(verifyJWT, getCurrentUser);
 

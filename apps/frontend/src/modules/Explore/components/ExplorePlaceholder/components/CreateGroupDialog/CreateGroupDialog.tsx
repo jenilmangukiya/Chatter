@@ -5,13 +5,13 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   IconButton,
   Stack,
   TextField,
 } from "@mui/material";
-import { Dispatch, SetStateAction, useEffect, useRef } from "react";
+import { Dispatch, SetStateAction } from "react";
+import { useCreateGroupDialog } from "./useCreateGroupDialog";
 
 export const CreateGroupDialog = ({
   open,
@@ -20,24 +20,19 @@ export const CreateGroupDialog = ({
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const descriptionElementRef = useRef<HTMLElement>(null);
-  useEffect(() => {
-    if (open) {
-      const { current: descriptionElement } = descriptionElementRef;
-      if (descriptionElement !== null) {
-        descriptionElement.focus();
-      }
-    }
-  }, [open]);
+  const {
+    users,
+    isUsersLoading,
+    searchText,
+    setSearchText,
+    selectedUsers,
+    setSelectedUsers,
+  } = useCreateGroupDialog();
 
   return (
     <Dialog
       open={open}
-      onClose={handleClose}
+      onClose={() => setOpen(false)}
       scroll={"paper"}
       aria-labelledby="scroll-dialog-title"
       aria-describedby="scroll-dialog-description"
@@ -45,7 +40,7 @@ export const CreateGroupDialog = ({
       <DialogTitle id="scroll-dialog-title">Create Group </DialogTitle>
       <IconButton
         aria-label="close"
-        onClick={handleClose}
+        onClick={() => setOpen(false)}
         sx={{
           position: "absolute",
           right: 8,
@@ -56,39 +51,46 @@ export const CreateGroupDialog = ({
         <CloseIcon />
       </IconButton>
       <DialogContent dividers={true}>
-        <DialogContentText
-          id="scroll-dialog-description"
-          ref={descriptionElementRef}
-          tabIndex={-1}
-        >
-          <Stack width={"500px"} gap={3}>
-            <TextField
-              fullWidth
-              variant="outlined"
-              label="Group name"
-              placeholder="Enter group name"
-            />
-            <Autocomplete
-              multiple
-              id="tags-standard"
-              options={[{ title: "this is huge" }]}
-              getOptionLabel={(option) => option.title}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  variant="outlined"
-                  label="Select group members"
-                  placeholder="Favorites"
-                />
-              )}
-            />
-          </Stack>
-        </DialogContentText>
+        <Stack width={"500px"} gap={3}>
+          <TextField
+            fullWidth
+            variant="outlined"
+            label="Group name"
+            placeholder="Enter group name"
+          />
+          <Autocomplete
+            multiple
+            loading={isUsersLoading}
+            options={users?.docs || []}
+            getOptionLabel={(option: any) => option.fullName}
+            onInputChange={(_, value) => setSearchText(value)}
+            filterOptions={(x) => x}
+            filterSelectedOptions
+            value={selectedUsers}
+            getOptionKey={(data) => {
+              return data._id;
+            }}
+            isOptionEqualToValue={(option, value) => {
+              return option._id === value._id;
+            }}
+            selectOnFocus
+            inputValue={searchText}
+            onChange={(_, value) => setSelectedUsers(value)}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant="outlined"
+                label="Select group members"
+                placeholder="Favorites"
+              />
+            )}
+          />
+        </Stack>
       </DialogContent>
       <DialogActions sx={{ p: 2 }}>
-        <Button onClick={handleClose}>Cancel</Button>
+        <Button onClick={() => setOpen(false)}>Cancel</Button>
         <Button
-          onClick={handleClose}
+          onClick={() => setOpen(false)}
           variant="contained"
           sx={{ borderRadius: 16 }}
         >
