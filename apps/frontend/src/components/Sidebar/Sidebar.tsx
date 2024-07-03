@@ -1,5 +1,4 @@
 import {
-  DeleteOutline,
   MessageOutlined,
   People,
   PersonOutline,
@@ -56,7 +55,7 @@ export const Sidebar = () => {
               )}
             </NavLink>
           </IconButton>
-          <IconButton aria-label="Profile">
+          {/* <IconButton aria-label="Profile">
             <NavLink to={"/deleted"}>
               {({ isActive }) => (
                 <DeleteOutline
@@ -64,7 +63,7 @@ export const Sidebar = () => {
                 />
               )}
             </NavLink>
-          </IconButton>
+          </IconButton> */}
         </Stack>
         <IconButton aria-label="Profile" onClick={handleClick}>
           <PersonOutline sx={{ color: "white" }} />
