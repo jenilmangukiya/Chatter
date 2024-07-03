@@ -95,7 +95,6 @@ export const useChat = () => {
       },
       enabled: !!chatId,
       retry: 1,
-      gcTime: 0,
     },
   });
 
