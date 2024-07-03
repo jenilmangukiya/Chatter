@@ -160,9 +160,15 @@ export const createGroup = asyncHandler(
         user: user,
       };
     });
+    multiInsertMembers.push({
+      chat: newGroup._id,
+      user: req.user._id,
+    });
 
     await ChatMember.insertMany(multiInsertMembers);
 
-    res.status(200).json(new ApiResponse(200, "Group created Successfully"));
+    res
+      .status(200)
+      .json(new ApiResponse(200, newGroup, "Group created Successfully"));
   }
 );

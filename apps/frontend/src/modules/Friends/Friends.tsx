@@ -2,7 +2,6 @@ import { Divider, Stack, Typography } from "@mui/material";
 import { NavLink, useOutlet } from "react-router-dom";
 import PageLoader from "../../components/PageLoader";
 import { useGetFriendRequest } from "../../services";
-import { FriendsPlaceholder } from "./components/FriendsPlaceholder";
 import { useStyle } from "./useStyle";
 
 export const Friends = () => {
@@ -82,7 +81,7 @@ export const Friends = () => {
         </Stack>
       </Stack>
       <Stack flex={1} gap={1}>
-        {outlet || <FriendsPlaceholder />}
+        {outlet}
       </Stack>
     </Stack>
   );

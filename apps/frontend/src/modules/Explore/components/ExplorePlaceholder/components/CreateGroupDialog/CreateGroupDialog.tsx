@@ -27,6 +27,9 @@ export const CreateGroupDialog = ({
     setSearchText,
     selectedUsers,
     setSelectedUsers,
+    groupName,
+    setGroupName,
+    handleCreateGroupSubmit,
   } = useCreateGroupDialog();
 
   return (
@@ -57,6 +60,8 @@ export const CreateGroupDialog = ({
             variant="outlined"
             label="Group name"
             placeholder="Enter group name"
+            value={groupName}
+            onChange={(event) => setGroupName(event.target.value)}
           />
           <Autocomplete
             multiple
@@ -90,7 +95,7 @@ export const CreateGroupDialog = ({
       <DialogActions sx={{ p: 2 }}>
         <Button onClick={() => setOpen(false)}>Cancel</Button>
         <Button
-          onClick={() => setOpen(false)}
+          onClick={handleCreateGroupSubmit}
           variant="contained"
           sx={{ borderRadius: 16 }}
         >
