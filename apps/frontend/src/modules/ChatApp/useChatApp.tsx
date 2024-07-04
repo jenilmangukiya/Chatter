@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../Auth";
@@ -12,11 +12,12 @@ export const useChatApp = () => {
   const socket = useSocket();
   const dispatch = useDispatch();
   const { id: chatId } = useParams();
+  const [searchText, setSearchText] = useState("");
 
   const { newMessageAlerts } = useSelector((state: any) => state.chat);
 
   const { data: chatListData, isLoading: isChatListLoading } = useChatList({
-    searchText: "",
+    searchText: searchText,
     userId: user.userId,
   });
 
@@ -53,5 +54,9 @@ export const useChatApp = () => {
       }
     });
 
-  return { isChatListLoading, finalChatList };
+  const handleOnSearch = (text: string) => {
+    setSearchText(text);
+  };
+
+  return { isChatListLoading, finalChatList, handleOnSearch };
 };

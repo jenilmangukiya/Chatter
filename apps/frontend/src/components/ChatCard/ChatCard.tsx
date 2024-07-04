@@ -11,6 +11,7 @@ export const ChatCard = ({
   isActive,
   isGroup,
   avatar,
+  members,
 }: {
   title: string;
   lastMessage?: string;
@@ -20,6 +21,7 @@ export const ChatCard = ({
   isActive: boolean;
   isGroup?: boolean;
   avatar?: string;
+  members?: any;
 }) => {
   const { notification, container } = useStyle();
   return (
@@ -27,16 +29,26 @@ export const ChatCard = ({
       {!isGroup && (
         <Avatar
           sx={{ bgcolor: red[500], width: 46, height: 46 }}
-          aria-label="recipe"
           sizes="large"
           src={avatar}
         >
-          {title[0]}
+          {title[0]?.toUpperCase()}
         </Avatar>
       )}
       {isGroup && (
-        <AvatarGroup max={2} spacing={"small"} total={totalMembers}>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+        <AvatarGroup max={2} spacing={"medium"} total={totalMembers}>
+          {members.map((item: any) => {
+            return (
+              <Avatar
+                alt={item.fullName}
+                src="avatar"
+                sx={{ bgcolor: red[500] }}
+              >
+                {item.fullName[0].toUpperCase()}
+              </Avatar>
+            );
+          })}
+
           <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
           <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
           <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />

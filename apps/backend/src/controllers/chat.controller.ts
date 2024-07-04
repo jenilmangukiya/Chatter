@@ -12,6 +12,7 @@ import { RequestExpress } from "../utils/types.js";
 export const getUserChatsList = asyncHandler(
   async (req: RequestExpress, res: Response) => {
     const pipeline: PipelineStage[] = [];
+    const query = req.query.query as any;
 
     pipeline.push(
       {
@@ -47,6 +48,30 @@ export const getUserChatsList = asyncHandler(
               _id: req.user._id,
             },
           },
+        },
+      },
+      {
+        $match: {
+          $or: [
+            {
+              users: {
+                $elemMatch: {
+                  _id: {
+                    $ne: req.user._id,
+                  },
+                  fullName: {
+                    $regex: new RegExp(query, "i"),
+                  },
+                },
+              },
+              isGroupChat: false,
+            },
+            {
+              groupTitle: {
+                $regex: new RegExp(query, "i"),
+              },
+            },
+          ],
         },
       }
     );

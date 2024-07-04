@@ -9,12 +9,12 @@ import { useStyle } from "./useStyle";
 export const ChatApp = () => {
   const { chatListContainer } = useStyle();
   const outlet = useOutlet();
-  const { isChatListLoading, finalChatList } = useChatApp();
+  const { isChatListLoading, finalChatList, handleOnSearch } = useChatApp();
 
   return (
     <Stack direction={"row"} width={"100%"} gap={1}>
       <Stack sx={{ width: { md: "45%", lg: "34%" } }} gap={1}>
-        <ChatSearch />
+        <ChatSearch handleOnSearch={handleOnSearch} />
         <Stack sx={chatListContainer}>
           {isChatListLoading && <PageLoader />}
           {!isChatListLoading &&
@@ -35,6 +35,7 @@ export const ChatApp = () => {
                         totalMembers={item?.totalMembers}
                         unreadMessages={item.unreadMessage}
                         isGroup={item.isGroup}
+                        members={item.members}
                         avatar={item.avatar}
                         key={item.id}
                       />

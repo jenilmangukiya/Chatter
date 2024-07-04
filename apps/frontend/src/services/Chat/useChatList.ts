@@ -40,6 +40,7 @@ export const useChatList = ({
             unreadMessage: 0,
             isGroup: true,
             totalMembers: item.users.length,
+            members: item.users,
           };
         } else {
           const sender = item.users.find((i: any) => i._id !== userId);
