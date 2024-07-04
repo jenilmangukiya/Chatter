@@ -197,3 +197,58 @@ export const createGroup = asyncHandler(
       .json(new ApiResponse(200, newGroup, "Group created Successfully"));
   }
 );
+
+export const deleteChatMember = asyncHandler(
+  async (req: RequestExpress, res: Response) => {
+    const { chatId, memberId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(chatId))
+      throw new ApiError(404, "Invalid chatId");
+
+    if (!mongoose.Types.ObjectId.isValid(memberId))
+      throw new ApiError(404, "Invalid memberId");
+
+    const chat = await Chat.findById(chatId);
+
+    if (!chat) {
+      throw new ApiError(404, "Invalid chatId");
+    }
+
+    const isChatMember = await ChatMember.findOne({
+      chat: chatId,
+      user: memberId,
+    });
+
+    if (!isChatMember) {
+      throw new ApiError(404, "This user is not part of this chat");
+    }
+
+    const isIamPartOfChat = await ChatMember.findOne({
+      chat: chatId,
+      user: req.user._id,
+    });
+
+    if (!isIamPartOfChat) {
+      throw new ApiError(401, "Not authorized to Remove User");
+    }
+
+    const isThereOnlyThreeMembers = await ChatMember.countDocuments({
+      chat: chatId,
+    });
+
+    if (isThereOnlyThreeMembers <= 3) {
+      throw new ApiError(
+        400,
+        "Can not remove the User As minimum three members are required for Group Chat"
+      );
+    }
+
+    const deleted = await ChatMember.findByIdAndDelete(isChatMember._id);
+
+    if (!deleted) {
+      throw new ApiError(500, "Something when wrong please try again");
+    }
+
+    res.status(204).json(new ApiResponse(204, isThereOnlyThreeMembers));
+  }
+);

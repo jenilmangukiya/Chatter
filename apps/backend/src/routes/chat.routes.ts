@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   createGroup,
+  deleteChatMember,
   getChat,
   getUserChatsList,
 } from "../controllers/chat.controller.js";
@@ -13,5 +14,7 @@ router.route("/").get(verifyJWT, getUserChatsList);
 router.route("/:chatId").get(verifyJWT, getChat);
 
 router.route("/createGroup").post(verifyJWT, createGroup);
+
+router.route("/:chatId/:memberId").delete(verifyJWT, deleteChatMember);
 
 export default router;
