@@ -31,7 +31,7 @@ export const Sidebar = () => {
         height={"100%"}
       >
         <AutoAwesomeIcon sx={{ color: "primary.main", fontSize: "32px" }} />
-        <Stack gap={4}>
+        <Stack gap={6}>
           <IconButton aria-label="Profile">
             <NavLink to={"/chat"}>
               {({ isActive }) => (

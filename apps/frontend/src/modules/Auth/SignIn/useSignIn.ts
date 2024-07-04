@@ -12,7 +12,7 @@ export const useSignIn = () => {
 
   const { setSnackbarConfig } = useSnackbar();
 
-  const { mutate: loginMutation } = useLoginUser({
+  const { mutate: loginMutation, isPending } = useLoginUser({
     onError: (e: any) => {
       console.log("e", e);
       setSnackbarConfig({
@@ -85,5 +85,5 @@ export const useSignIn = () => {
     }
   };
 
-  return { handleSubmit };
+  return { handleSubmit, isPending };
 };

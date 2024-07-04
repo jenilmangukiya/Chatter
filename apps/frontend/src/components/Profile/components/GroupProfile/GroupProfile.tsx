@@ -2,6 +2,7 @@ import { Avatar, Stack, Typography } from "@mui/material";
 import { red } from "@mui/material/colors";
 import { useAuth } from "../../../../Auth";
 import { GroupMemberItem } from "./components";
+import { useGroupProfile } from "./useGroupProfile";
 
 export const GroupProfile = ({
   friends,
@@ -11,6 +12,7 @@ export const GroupProfile = ({
   groupTitle: string;
 }) => {
   const { user } = useAuth();
+  const { handleOnRemoveClick } = useGroupProfile();
   return (
     <Stack
       p={3}
@@ -41,7 +43,12 @@ export const GroupProfile = ({
           {friends
             ?.filter((item: any) => item._id !== user.userId)
             .map((item: any) => {
-              return <GroupMemberItem item={item} />;
+              return (
+                <GroupMemberItem
+                  item={item}
+                  onRemoveClick={handleOnRemoveClick}
+                />
+              );
             })}
         </Stack>
       </Stack>

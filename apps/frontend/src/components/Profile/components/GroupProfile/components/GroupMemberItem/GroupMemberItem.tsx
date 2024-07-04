@@ -1,10 +1,14 @@
 import { Avatar, Box, Button, Divider, Stack, Typography } from "@mui/material";
-import { useGroupMemberItem } from "./useGroupMemberItem";
 import { useStyle } from "./useStyle";
 
-export const GroupMemberItem = ({ item }: { item: any }) => {
+export const GroupMemberItem = ({
+  item,
+  onRemoveClick,
+}: {
+  item: any;
+  onRemoveClick: (memberId: string) => void;
+}) => {
   const { exploreItem, actionButton } = useStyle();
-  const { handleRemoveUser, isRemoveUserPending } = useGroupMemberItem();
 
   return (
     <div key={item._id}>
@@ -51,10 +55,9 @@ export const GroupMemberItem = ({ item }: { item: any }) => {
                 color={"error"}
                 size="small"
                 sx={actionButton}
-                disabled={isRemoveUserPending}
-                onClick={(e) => handleRemoveUser(e)}
+                onClick={(e) => onRemoveClick(item._id)}
               >
-                {isRemoveUserPending ? "pending..." : "Remove"}
+                Remove
               </Button>
             </Stack>
           </Stack>

@@ -30,7 +30,7 @@ export const SignIn = () => {
     event.preventDefault();
   };
 
-  const { handleSubmit } = useSignIn();
+  const { handleSubmit, isPending } = useSignIn();
 
   return (
     <>
@@ -94,8 +94,13 @@ export const SignIn = () => {
               </Typography>
             </Stack>
 
-            <Button variant="contained" size="large" type="submit">
-              Login
+            <Button
+              variant="contained"
+              size="large"
+              type="submit"
+              disabled={isPending}
+            >
+              {isPending ? "Loading..." : "Login"}
             </Button>
 
             <Stack

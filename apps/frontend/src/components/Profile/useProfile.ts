@@ -26,7 +26,6 @@ export const useProfile = () => {
     (item: any) => item._id !== user.userId
   );
 
-  console.log("senderUser", senderUser);
   return {
     isChatDataLoading,
     chatData,
