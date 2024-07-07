@@ -1,7 +1,17 @@
 import { Avatar, Stack, Typography } from "@mui/material";
 import { red } from "@mui/material/colors";
+import moment from "moment";
+import PageLoader from "../../../PageLoader";
+import { useUserProfile } from "./useUserProfile";
 
-export const UserProfile = ({ userDetails }: { userDetails: any }) => {
+export const UserProfile = () => {
+  const { isLoading, userDetails } = useUserProfile();
+
+  if (isLoading || !userDetails) {
+    return <PageLoader />;
+  }
+
+  console.log("userDetails", userDetails);
   return (
     <>
       <Stack
@@ -29,7 +39,8 @@ export const UserProfile = ({ userDetails }: { userDetails: any }) => {
               {userDetails.email}
             </Typography>
             <Typography variant="body1" fontWeight={500}>
-              <b>Joined At:</b> 01/02/3002
+              <b>Joined At:</b>{" "}
+              {moment(userDetails?.createdAt).format("DD/MM/YYYY")}
             </Typography>
 
             <Typography variant="body1">

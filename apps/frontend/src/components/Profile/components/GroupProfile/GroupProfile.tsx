@@ -1,18 +1,21 @@
 import { Avatar, Stack, Typography } from "@mui/material";
 import { red } from "@mui/material/colors";
 import { useAuth } from "../../../../Auth";
+import PageLoader from "../../../PageLoader";
 import { GroupMemberItem } from "./components";
 import { useGroupProfile } from "./useGroupProfile";
 
-export const GroupProfile = ({
-  friends,
-  groupTitle,
-}: {
-  friends: any;
-  groupTitle: string;
-}) => {
+export const GroupProfile = () => {
   const { user } = useAuth();
-  const { handleOnRemoveClick } = useGroupProfile();
+  const { handleOnRemoveClick, chatData, isChatDataLoading } =
+    useGroupProfile();
+
+  if (isChatDataLoading) {
+    return <PageLoader />;
+  }
+
+  console.log("chatData", chatData);
+
   return (
     <Stack
       p={3}
@@ -29,10 +32,10 @@ export const GroupProfile = ({
           aria-label="recipe"
           sizes="large"
         >
-          <Typography variant="h1">{groupTitle[0]}</Typography>
+          <Typography variant="h1">{chatData?.groupTitle[0]}</Typography>
         </Avatar>
         <Typography variant="h4" fontWeight={600}>
-          {groupTitle}
+          {chatData?.groupTitle}
         </Typography>
       </Stack>
       <Stack height={"100%"} width={"50%"}>
@@ -40,7 +43,7 @@ export const GroupProfile = ({
           Group Members
         </Typography>
         <Stack overflow={"scroll"} sx={{ scrollbarWidth: "none" }}>
-          {friends
+          {chatData?.users
             ?.filter((item: any) => item._id !== user.userId)
             .map((item: any) => {
               return (

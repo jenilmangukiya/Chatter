@@ -35,7 +35,7 @@ export const Router = () => {
             <Route path=":id/profile/:userId" element={<ChatProfile />} />
           </Route>
           <Route path="/explore" element={<Explore />}>
-            <Route path=":id/profile" element={<ExploreProfile />} />
+            <Route path=":userId/profile" element={<ExploreProfile />} />
           </Route>
           <Route path="/friends" element={<Friends />}>
             <Route index element={<Navigate to="friend-requests" />} />

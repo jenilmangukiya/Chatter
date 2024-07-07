@@ -1,12 +1,28 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { useRemoveChatMember } from "../../../../services";
+import { useGetChat, useRemoveChatMember } from "../../../../services";
 import { useSnackbar } from "../../../SnackbarAlert";
 
 export const useGroupProfile = () => {
   const { id: chatId } = useParams();
   const queryClient = useQueryClient();
   const { setSnackbarConfig } = useSnackbar();
+
+  const {
+    data: chatData,
+    isLoading: isChatDataLoading,
+    isError: isChatDataError,
+  } = useGetChat({
+    chatId: chatId || undefined,
+    queryParams: {
+      throwOnError: () => {
+        return false;
+      },
+      enabled: !!chatId,
+      retry: 1,
+      gcTime: 0,
+    },
+  });
 
   const { mutate: removeMemberMutate } = useRemoveChatMember({
     onSuccess: () => {
@@ -33,5 +49,5 @@ export const useGroupProfile = () => {
     removeMemberMutate({ chatId, memberId });
   };
 
-  return { handleOnRemoveClick };
+  return { handleOnRemoveClick, chatData, isChatDataLoading };
 };

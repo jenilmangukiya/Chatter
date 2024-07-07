@@ -7,8 +7,7 @@ import { useProfile } from "./useProfile";
 
 export const Profile = ({ onBackButtonClick }: { onBackButtonClick?: any }) => {
   const navigate = useNavigate();
-  const { isChatDataLoading, senderUser, isGroupChat, chatData, groupTitle } =
-    useProfile();
+  const { isChatDataLoading, isGroupChat } = useProfile();
 
   return (
     <>
@@ -31,12 +30,8 @@ export const Profile = ({ onBackButtonClick }: { onBackButtonClick?: any }) => {
         </Stack>
       </Stack>
       {isChatDataLoading && <PageLoader />}
-      {!isChatDataLoading && !isGroupChat && (
-        <UserProfile userDetails={senderUser} />
-      )}
-      {!isChatDataLoading && isGroupChat && (
-        <GroupProfile friends={chatData?.users} groupTitle={groupTitle} />
-      )}
+      {!isChatDataLoading && !isGroupChat && <UserProfile />}
+      {!isChatDataLoading && isGroupChat && <GroupProfile />}
     </>
   );
 };

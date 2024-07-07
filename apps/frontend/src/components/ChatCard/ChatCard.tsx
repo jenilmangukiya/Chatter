@@ -43,6 +43,7 @@ export const ChatCard = ({
                 alt={item.fullName}
                 src="avatar"
                 sx={{ bgcolor: red[500] }}
+                key={item._id}
               >
                 {item.fullName[0].toUpperCase()}
               </Avatar>

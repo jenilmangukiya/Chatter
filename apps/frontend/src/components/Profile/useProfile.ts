@@ -4,6 +4,7 @@ import { useGetChat } from "../../services";
 
 export const useProfile = () => {
   const { id: chatId } = useParams();
+
   const { user } = useAuth();
   const {
     data: chatData,
