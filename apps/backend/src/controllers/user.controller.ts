@@ -1,5 +1,6 @@
 import { Response } from "express";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
@@ -349,6 +350,23 @@ export const getUsers = asyncHandler(
     const userPaginated = await User.aggregatePaginate(pipeline, options);
 
     res.status(200).json(new ApiResponse(200, userPaginated));
+  }
+);
+
+export const getUser = asyncHandler(
+  async (req: RequestExpress, res: Response) => {
+    const { userId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(userId))
+      throw new ApiError(404, "Invalid userId");
+
+    const user = await User.findById(userId).select(
+      "-password -refreshToken -__v"
+    );
+    if (!user) {
+      throw new ApiError(404, "User not found");
+    }
+    res.status(200).json(new ApiResponse(200, user, "success"));
   }
 );
 

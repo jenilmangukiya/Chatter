@@ -3,6 +3,7 @@ import {
   changeCurrentPassword,
   getCurrentUser,
   getExploreUsers,
+  getUser,
   getUsers,
   loginUser,
   logoutUser,
@@ -30,5 +31,6 @@ router
   .post(upload.single("avatar"), verifyJWT, updateUserAvatar);
 
 router.route("/logout").post(verifyJWT, logoutUser);
+router.route("/:userId").get(verifyJWT, getUser);
 
 export default router;
