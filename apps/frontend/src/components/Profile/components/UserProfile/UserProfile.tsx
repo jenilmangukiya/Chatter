@@ -1,17 +1,16 @@
-import { Avatar, Stack, Typography } from "@mui/material";
+import { Avatar, Button, Stack, Typography } from "@mui/material";
 import { red } from "@mui/material/colors";
 import moment from "moment";
 import PageLoader from "../../../PageLoader";
-import { useUserProfile } from "./useUserProfile";
+import { useUserProfile } from "./useUserProfile.tsx";
 
 export const UserProfile = () => {
-  const { isLoading, userDetails } = useUserProfile();
+  const { isLoading, userDetails, buttonConfig } = useUserProfile();
 
   if (isLoading || !userDetails) {
     return <PageLoader />;
   }
 
-  console.log("userDetails", userDetails);
   return (
     <>
       <Stack
@@ -28,12 +27,25 @@ export const UserProfile = () => {
             sizes="large"
             src={userDetails?.avatar}
           >
-            <Typography variant="h1">{userDetails?.fullName[0]}</Typography>
+            <Typography variant="h1">
+              {userDetails?.fullName[0].toUpperCase()}
+            </Typography>
           </Avatar>
           <Stack gap={1}>
-            <Typography variant="h4" fontWeight={600}>
-              {userDetails?.fullName}
-            </Typography>
+            <Stack direction={"row"}>
+              <Typography variant="h4" fontWeight={600}>
+                {userDetails?.fullName}
+              </Typography>
+              <Button
+                variant={buttonConfig.variant}
+                sx={{ mx: 4, textTransform: "capitalize", fontWeight: 700 }}
+                color={buttonConfig.color}
+                size="medium"
+                startIcon={buttonConfig.icon}
+              >
+                {buttonConfig.text}
+              </Button>
+            </Stack>
             <Typography variant="body1" fontWeight={500}>
               <b>Email: </b>
               {userDetails.email}

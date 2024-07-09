@@ -1,14 +1,52 @@
+import { Done, PersonAdd, PersonRemove, Remove } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../../../Auth";
-import { useGetChat } from "../../../../services";
-import { useGetUser } from "../../../../services/Explore/useGetUser";
+import { useGetChat, useGetUser } from "../../../../services";
+
+const getButtonConfig = (friendship_status: any) => {
+  if (friendship_status?.incoming_request) {
+    return {
+      text: "Confirm Request",
+      color: "success",
+      variant: "contained",
+      icon: <Done />,
+    };
+  } else if (friendship_status?.outgoing_request) {
+    return {
+      text: "Unsend Request",
+      color: "error",
+      variant: "contained",
+      icon: <Remove />,
+    };
+  } else if (friendship_status?.is_friend) {
+    return {
+      text: "unfriend",
+      color: "error",
+      variant: "outlined",
+      icon: <PersonRemove />,
+    };
+  } else {
+    return {
+      text: "Send Request",
+      color: "success",
+      variant: "contained",
+      icon: <PersonAdd />,
+    };
+  }
+};
 
 export const useUserProfile = () => {
   const { id: chatId, userId } = useParams();
-  console.log("userId", userId);
+
   const { user } = useAuth();
   const [userDetails, setUserDetails] = useState<any>(null);
+  const [buttonConfig, setButtonConfig] = useState<any>({
+    text: "",
+    color: "primary",
+    variant: "contained",
+    icon: <Done />,
+  });
 
   const { data: chatData, isLoading: isChatDataLoading } = useGetChat({
     chatId: chatId || undefined,
@@ -29,6 +67,7 @@ export const useUserProfile = () => {
       );
       if (senderUser) {
         setUserDetails(senderUser);
+        setButtonConfig(getButtonConfig(senderUser.friendship_status));
       }
     }
   }, [chatData, isChatDataLoading]);
@@ -45,13 +84,11 @@ export const useUserProfile = () => {
     },
   });
 
-  console.log(isUserDataLoading, isUserDataLoading);
-
   useEffect(() => {
     if (userData && !isUserDataLoading) {
       if (userData) {
-        console.log("userData", userData);
         setUserDetails(userData);
+        setButtonConfig(getButtonConfig(userData.friendship_status));
       }
     }
   }, [userData, isUserDataLoading, userId]);
@@ -59,5 +96,6 @@ export const useUserProfile = () => {
   return {
     userDetails,
     isLoading: isUserDataLoading || isChatDataLoading,
+    buttonConfig,
   };
 };
