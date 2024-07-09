@@ -15,7 +15,7 @@ export const FriendRequestUserList = () => {
       {isUserListLoading && <PageLoader />}
       {usersList &&
         usersList?.map((item: any) => {
-          return <FriendRequestUserItem item={item} />;
+          return <FriendRequestUserItem item={item} key={item.key} />;
         })}
     </Stack>
   );

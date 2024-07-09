@@ -30,7 +30,7 @@ export const RequestsSentUserItem = ({ item }: { item: any }) => {
                 sizes="large"
                 src={item.avatar}
               >
-                {"J"}
+                {item.fullName[0].toUpperCase()}
               </Avatar>
             </Box>
 

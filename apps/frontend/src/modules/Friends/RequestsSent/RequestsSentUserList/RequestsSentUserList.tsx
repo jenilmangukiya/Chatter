@@ -15,7 +15,7 @@ export const RequestsSentUserList = () => {
       {isUserListLoading && <PageLoader />}
       {usersList &&
         usersList?.map((item: any) => {
-          return <RequestsSentUserItem item={item} />;
+          return <RequestsSentUserItem item={item} key={item._id} />;
         })}
     </Stack>
   );

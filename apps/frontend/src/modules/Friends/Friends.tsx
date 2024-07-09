@@ -1,4 +1,5 @@
 import { Divider, Stack, Typography } from "@mui/material";
+import React from "react";
 import { NavLink, useOutlet } from "react-router-dom";
 import PageLoader from "../../components/PageLoader";
 import { useGetFriendRequest } from "../../services";
@@ -18,11 +19,13 @@ export const Friends = () => {
 
   const menus = [
     {
+      id: 1,
       title: "Friend requests",
       href: "/friends/friend-requests",
       notificationCount: requestsReceived?.length,
     },
     {
+      id: 2,
       title: "Friend requests sent",
       href: "/friends/requests-sent",
       notificationCount: requestsSent?.length,
@@ -47,11 +50,13 @@ export const Friends = () => {
           </Typography>
         </Stack>
         <Stack sx={bottomSidebar}>
-          {(isLoadingReceived || isLoadingSent) && <PageLoader />}
+          {(isLoadingReceived || isLoadingSent) && (
+            <PageLoader key={"loader"} />
+          )}
           {!(isLoadingReceived || isLoadingSent) &&
             menus.map((item) => {
               return (
-                <>
+                <React.Fragment key={item.id}>
                   <NavLink to={item.href} style={{ textDecoration: "none" }}>
                     {({ isActive }) => {
                       return (
@@ -75,7 +80,7 @@ export const Friends = () => {
                     }}
                   </NavLink>
                   <Divider variant="middle" />
-                </>
+                </React.Fragment>
               );
             })}
         </Stack>
