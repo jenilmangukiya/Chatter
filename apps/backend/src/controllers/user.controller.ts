@@ -1,6 +1,9 @@
 import { Response } from "express";
 import jwt from "jsonwebtoken";
+import { ObjectId } from "mongodb";
 import mongoose from "mongoose";
+import { Chat } from "../models/chat.model.js";
+import { Request } from "../models/request.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
@@ -366,7 +369,80 @@ export const getUser = asyncHandler(
     if (!user) {
       throw new ApiError(404, "User not found");
     }
-    res.status(200).json(new ApiResponse(200, user, "success"));
+
+    const friendship_status = {
+      incoming_request: false,
+      outgoing_request: false,
+      is_friend: false,
+    };
+
+    const requestsData = await Request.findOne({
+      $or: [
+        {
+          sender: user._id,
+          receiver: req.user?._id,
+        },
+        {
+          receiver: user._id,
+          sender: req.user?._id,
+        },
+      ],
+    });
+
+    console.log("requestsData", requestsData);
+
+    if (requestsData) {
+      if (requestsData?.sender.toString() === req.user?._id.toString()) {
+        friendship_status["outgoing_request"] = true;
+      } else if (
+        requestsData?.receiver.toString() === req.user?._id.toString()
+      ) {
+        friendship_status["incoming_request"] = true;
+      }
+    }
+
+    const isMyFriend = await Chat.aggregate([
+      {
+        $lookup: {
+          from: "chatmembers",
+          localField: "_id",
+          foreignField: "chat",
+          as: "members",
+          pipeline: [
+            {
+              $match: {
+                $or: [
+                  {
+                    user: req.user._id,
+                  },
+                  {
+                    user: new ObjectId(userId),
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      },
+      {
+        $match: {
+          $expr: { $eq: [{ $size: "$members" }, 2] },
+        },
+      },
+      {
+        $match: {
+          isGroupChat: false,
+        },
+      },
+    ]);
+
+    if (isMyFriend && isMyFriend.length) {
+      friendship_status["is_friend"] = true;
+    }
+
+    const returnData = { ...user._doc, friendship_status };
+
+    res.status(200).json(new ApiResponse(200, returnData, "success"));
   }
 );
 
