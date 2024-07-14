@@ -195,7 +195,7 @@ export const approveRequest = asyncHandler(
     if (!newChatMembers) {
       await session.abortTransaction();
       session.endSession();
-      throw new ApiError(500, "Something went wrong And rollback 1");
+      throw new ApiError(500, "Something went wrong");
     }
 
     const deleteRequest = await Request.findByIdAndDelete(requestId, {
@@ -205,7 +205,7 @@ export const approveRequest = asyncHandler(
     if (!deleteRequest) {
       await session.abortTransaction();
       session.endSession();
-      throw new ApiError(500, "Something went wrong And rollback");
+      throw new ApiError(500, "Something went wrong");
     }
 
     await session.commitTransaction();

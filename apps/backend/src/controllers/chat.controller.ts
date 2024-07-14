@@ -3,6 +3,7 @@ import { ObjectId } from "mongodb";
 import mongoose, { PipelineStage } from "mongoose";
 import { Chat } from "../models/chat.model.js";
 import { ChatMember } from "../models/chatMember.model.js";
+import { Message } from "../models/message.model.js";
 import { User } from "../models/user.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
@@ -250,5 +251,65 @@ export const deleteChatMember = asyncHandler(
     }
 
     res.status(204).json(new ApiResponse(204, isThereOnlyThreeMembers));
+  }
+);
+
+export const deleteChat = asyncHandler(
+  async (req: RequestExpress, res: Response) => {
+    const { chatId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(chatId))
+      throw new ApiError(404, "Invalid chatId");
+
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
+    const members = await ChatMember.deleteMany(
+      {
+        chat: chatId,
+      },
+      { session: session }
+    );
+
+    if (!members?.deletedCount) {
+      await session.abortTransaction();
+      session.endSession();
+      throw new ApiError(
+        500,
+        "Something went wrong while deleting members,please try again!"
+      );
+    }
+
+    const message = await Message.deleteMany(
+      {
+        chat: chatId,
+      },
+      { session: session }
+    );
+
+    if (!message?.acknowledged) {
+      await session.abortTransaction();
+      session.endSession();
+      throw new ApiError(
+        500,
+        "Something went wrong while deleting messages, please try again!"
+      );
+    }
+
+    const chat = await Message.findByIdAndDelete(chatId, { session: session });
+
+    if (!chat) {
+      await session.abortTransaction();
+      session.endSession();
+      throw new ApiError(
+        500,
+        "Something went wrong while deleting Chat, please try again!"
+      );
+    }
+
+    await session.commitTransaction();
+    session.endSession();
+
+    return res.status(204).json(new ApiResponse(204, null));
   }
 );
