@@ -3,7 +3,7 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../../../../Auth";
 import { useSnackbar } from "../../../../../components";
-import { useRemoveChat } from "../../../../../services";
+import { useRemoveChat, useRemoveChatMember } from "../../../../../services";
 
 export const useChatHeader = ({ chatData }: { chatData: any }) => {
   const { user } = useAuth();
@@ -40,6 +40,23 @@ export const useChatHeader = ({ chatData }: { chatData: any }) => {
     navigate("/chat");
   };
 
+  const { mutate: removeMemberMutate } = useRemoveChatMember({
+    onSuccess: () => {
+      setSnackbarConfig({
+        message: "Group Left successfully",
+        open: true,
+        severity: "success",
+      });
+
+      queryClient.invalidateQueries({ queryKey: ["ChatList", ""] });
+      navigate("/chat");
+    },
+  });
+
+  const handleOnLeaveGroup = () => {
+    removeMemberMutate({ chatId: id, memberId: user.userId });
+  };
+
   return {
     anchorEl,
     open,
@@ -50,5 +67,6 @@ export const useChatHeader = ({ chatData }: { chatData: any }) => {
     groupTitle,
     senderUser,
     handleOnClickUnfriend,
+    handleOnLeaveGroup,
   };
 };

@@ -2,6 +2,7 @@ import { UseMutationOptions, useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
 import { axiosAuth } from "../../Auth";
+import { useSnackbar } from "../../components";
 import { DELETE_CHAT_MEMBER } from "./ChatAPIRoutes";
 
 const removeChatMember = async ({
@@ -16,8 +17,19 @@ const removeChatMember = async ({
 
 export const useRemoveChatMember = (
   queryParams?: UseMutationOptions<any, Error, string | undefined, unknown>
-) =>
-  useMutation<any, AxiosError, any>({
+) => {
+  const { setSnackbarConfig } = useSnackbar();
+  return useMutation<any, AxiosError, any>({
     mutationFn: removeChatMember,
+    onError(error: any) {
+      setSnackbarConfig({
+        message:
+          error?.response?.data?.message ||
+          "Something went wrong please try again",
+        open: true,
+        severity: "error",
+      });
+    },
     ...queryParams,
   });
+};

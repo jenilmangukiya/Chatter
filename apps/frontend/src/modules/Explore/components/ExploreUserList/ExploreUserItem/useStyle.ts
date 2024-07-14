@@ -8,8 +8,5 @@ export const useStyle = () => {
       gap: 2,
       height: 60,
     },
-    actionButton: {
-      borderRadius: 16,
-    },
   };
 };

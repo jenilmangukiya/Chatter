@@ -34,15 +34,6 @@ export const useGroupProfile = () => {
       queryClient.invalidateQueries({ queryKey: ["chat", chatId] });
       queryClient.invalidateQueries({ queryKey: ["ChatList", ""] });
     },
-    onError(error: any) {
-      setSnackbarConfig({
-        message:
-          error?.response?.data?.message ||
-          "Something went wrong please try again",
-        open: true,
-        severity: "error",
-      });
-    },
   });
 
   const handleOnRemoveClick = (memberId: string) => {

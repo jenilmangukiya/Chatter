@@ -1,11 +1,9 @@
-import { Avatar, Box, Button, Divider, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Divider, Stack, Typography } from "@mui/material";
 import { NavLink } from "react-router-dom";
-import { useExploreItem } from "./useExploreItem";
 import { useStyle } from "./useStyle";
 
 export const ExploreUserItem = ({ item }: { item: any }) => {
-  const { exploreItem, actionButton } = useStyle();
-  const { handleSendFriendRequest, isSendRequestPending } = useExploreItem();
+  const { exploreItem } = useStyle();
 
   return (
     <div key={item._id}>
@@ -55,19 +53,6 @@ export const ExploreUserItem = ({ item }: { item: any }) => {
                   >
                     {item.email}
                   </Typography>
-                </Stack>
-
-                <Stack direction={"row"} gap={2}>
-                  <Button
-                    variant="outlined"
-                    color={"primary"}
-                    size="small"
-                    sx={actionButton}
-                    disabled={isSendRequestPending}
-                    onClick={(e) => handleSendFriendRequest(e, item._id)}
-                  >
-                    {isSendRequestPending ? "Sending..." : "Send request"}
-                  </Button>
                 </Stack>
               </Stack>
             </Stack>

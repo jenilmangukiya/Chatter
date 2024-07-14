@@ -33,6 +33,7 @@ export const ChatHeader = ({
     groupTitle,
     senderUser,
     handleOnClickUnfriend,
+    handleOnLeaveGroup,
   } = useChatHeader({ chatData });
   const { callButton, profileButton } = useStyle();
 
@@ -131,6 +132,9 @@ export const ChatHeader = ({
             </MenuItem>
             {!isGroupChat && (
               <MenuItem onClick={handleOnClickUnfriend}>Remove friend</MenuItem>
+            )}
+            {isGroupChat && (
+              <MenuItem onClick={handleOnLeaveGroup}>Leave Group</MenuItem>
             )}
           </Menu>
         </Stack>
