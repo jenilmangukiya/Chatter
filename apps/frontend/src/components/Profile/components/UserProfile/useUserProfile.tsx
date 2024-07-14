@@ -8,6 +8,7 @@ import {
   useCancelFriendRequest,
   useGetChat,
   useGetUser,
+  useRemoveChat,
   useSendFriendRequest,
 } from "../../../../services";
 import { useSnackbar } from "../../../SnackbarAlert";
@@ -161,11 +162,25 @@ export const useUserProfile = () => {
     useSendFriendRequest({
       onSuccess: (e) => {
         setSnackbarConfig({
-          message: e.data.message,
+          message: "Friend Request sended successfully",
           open: true,
           severity: "success",
         });
         queryClient.invalidateQueries({ queryKey: ["exploreUsers"] });
+        refetchUserData();
+      },
+    });
+
+  const { mutate: mutateRemoveChat, isPending: isRemoveChatLoading } =
+    useRemoveChat({
+      onSuccess: (e) => {
+        setSnackbarConfig({
+          message: "User Unfriend Successfully",
+          open: true,
+          severity: "success",
+        });
+        queryClient.invalidateQueries({ queryKey: ["exploreUsers"] });
+        queryClient.invalidateQueries({ queryKey: ["ChatList"] });
         refetchUserData();
       },
     });
@@ -182,7 +197,7 @@ export const useUserProfile = () => {
     ) {
       mutateCancelFriendRequest(userDetails.friendship_status.request_id);
     } else if (buttonConfig.name === "unfriend") {
-      console.log("TODO: Implement API");
+      mutateRemoveChat({ userId: userDetails._id });
     } else if (buttonConfig.name === "send_request") {
       mutateSendFriendRequest({
         userId: userDetails._id,
@@ -206,7 +221,8 @@ export const useUserProfile = () => {
       isUserDataLoading ||
       isChatDataLoading ||
       isUserDataRefetching ||
-      isChatDataRefetching,
+      isChatDataRefetching ||
+      isRemoveChatLoading,
     buttonConfig,
     handleOnButtonClick,
   };

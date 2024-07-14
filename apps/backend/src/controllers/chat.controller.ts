@@ -256,10 +256,65 @@ export const deleteChatMember = asyncHandler(
 
 export const deleteChat = asyncHandler(
   async (req: RequestExpress, res: Response) => {
-    const { chatId } = req.params;
+    const { userId } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(chatId))
-      throw new ApiError(404, "Invalid chatId");
+    if (!mongoose.Types.ObjectId.isValid(userId))
+      throw new ApiError(404, "Invalid userId");
+
+    const chat: any = await Chat.aggregate([
+      {
+        $match: {
+          isGroupChat: false,
+        },
+      },
+      {
+        $lookup: {
+          from: "chatmembers",
+          localField: "_id",
+          foreignField: "chat",
+          pipeline: [
+            {
+              $lookup: {
+                from: "users",
+                localField: "user",
+                foreignField: "_id",
+                as: "user_data",
+                pipeline: [
+                  {
+                    $match: {
+                      $or: [
+                        { _id: req.user._id },
+                        { _id: new ObjectId(userId) },
+                      ],
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              $unwind: "$user_data",
+            },
+            {
+              $replaceRoot: {
+                newRoot: "$user_data",
+              },
+            },
+          ],
+          as: "users",
+        },
+      },
+      {
+        $match: {
+          $expr: { $gte: [{ $size: "$users" }, 2] },
+        },
+      },
+    ]);
+
+    if (!chat || !chat.length) {
+      throw new ApiError(404, "Chat not found");
+    }
+
+    const chatId = chat[0]._id;
 
     const session = await mongoose.startSession();
     session.startTransaction();
@@ -296,9 +351,9 @@ export const deleteChat = asyncHandler(
       );
     }
 
-    const chat = await Message.findByIdAndDelete(chatId, { session: session });
+    const chatData = await Chat.findByIdAndDelete(chatId, { session: session });
 
-    if (!chat) {
+    if (!chatData) {
       await session.abortTransaction();
       session.endSession();
       throw new ApiError(

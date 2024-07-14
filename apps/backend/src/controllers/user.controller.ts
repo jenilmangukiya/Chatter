@@ -55,7 +55,6 @@ export const registerUser = asyncHandler(
     }
 
     // Check for avatar path and upload it to cloudinary
-    console.log("req", req);
     let avatar;
     if (req.file?.path) {
       const avatarLocalPath = req.file?.path;
@@ -422,7 +421,7 @@ export const getUser = asyncHandler(
                     user: req.user._id,
                   },
                   {
-                    user: new ObjectId(userId),
+                    user: user._id,
                   },
                 ],
               },
