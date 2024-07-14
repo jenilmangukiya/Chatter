@@ -16,7 +16,13 @@ import { Link } from "react-router-dom";
 import { useChatHeader } from "./useChatHeader";
 import { useStyle } from "./useStyle";
 
-export const ChatHeader = ({ chatData }: { chatData: any }) => {
+export const ChatHeader = ({
+  chatData,
+  handleOnClearChatMessages,
+}: {
+  chatData: any;
+  handleOnClearChatMessages: () => void;
+}) => {
   const {
     anchorEl,
     open,
@@ -110,22 +116,23 @@ export const ChatHeader = ({ chatData }: { chatData: any }) => {
           >
             <MoreHoriz />
           </IconButton>
-          {!isGroupChat && (
-            <Menu
-              id="basic-menu"
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              MenuListProps={{
-                "aria-labelledby": "basic-button",
-              }}
-            >
-              <MenuItem onClick={handleOnClickUnfriend}>
-                Clear all Chat
-              </MenuItem>
+
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
+            }}
+          >
+            <MenuItem onClick={handleOnClearChatMessages}>
+              Clear all Chat
+            </MenuItem>
+            {!isGroupChat && (
               <MenuItem onClick={handleOnClickUnfriend}>Remove friend</MenuItem>
-            </Menu>
-          )}
+            )}
+          </Menu>
         </Stack>
       </Stack>
     </Stack>

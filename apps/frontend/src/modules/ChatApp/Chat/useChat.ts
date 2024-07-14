@@ -1,9 +1,10 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSnackbar } from "../../../components";
 import { getChatMessages, useGetChat } from "../../../services";
+import { useRemoveChatData } from "../../../services/Chat/useRemoveChatData";
 import { useSocket } from "../../../socket/useSocket";
 import { resetNewMessageCount } from "../../../store/Chat/chatSlice";
 import {
@@ -14,6 +15,7 @@ import {
 
 export const useChat = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const observerTarget = useRef(null);
   const socket = useSocket();
 
@@ -145,6 +147,23 @@ export const useChat = () => {
     }
   }, [isChatError, setSnackbarConfig, navigate]);
 
+  const { mutate: mutateRemoveChatData } = useRemoveChatData({
+    onSuccess: () => {
+      setSnackbarConfig({
+        message: "Chat Data Cleared successfully",
+        open: true,
+        severity: "success",
+      });
+      queryClient.invalidateQueries({ queryKey: ["messages", chatId] });
+    },
+  });
+
+  const handleOnClearChatMessages = () => {
+    mutateRemoveChatData({ chatId: chatId });
+    setMessages([]);
+    setLocalMessages([]);
+  };
+
   return {
     chatData,
     isChatLoading,
@@ -156,5 +175,6 @@ export const useChat = () => {
     setMessages,
     setLocalMessages,
     isUserTyping,
+    handleOnClearChatMessages,
   };
 };

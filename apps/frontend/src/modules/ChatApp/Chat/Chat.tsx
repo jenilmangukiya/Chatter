@@ -17,6 +17,7 @@ export const Chat = () => {
     setMessages,
     setLocalMessages,
     isUserTyping,
+    handleOnClearChatMessages,
   } = useChat();
 
   const { user } = useAuth();
@@ -28,7 +29,10 @@ export const Chat = () => {
   if (!isChatError)
     return (
       <Stack gap={1} position={"static"} height={"100%"}>
-        <ChatHeader chatData={chatData} />
+        <ChatHeader
+          chatData={chatData}
+          handleOnClearChatMessages={handleOnClearChatMessages}
+        />
 
         <Stack
           borderRadius={"16px"}

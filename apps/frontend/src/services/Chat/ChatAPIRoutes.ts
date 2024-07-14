@@ -6,6 +6,9 @@ export const GET_CHAT_API = (chatId?: string) =>
 export const DELETE_CHAT_API = (userId?: string) =>
   `/chats/${userId || undefined}`;
 
+export const DELETE_CHAT_DATA_API = (chatId?: string) =>
+  `/messages/clearChatData/${chatId || undefined}`;
+
 export const DELETE_CHAT_MEMBER = (chatId: string, memberId: string) =>
   `/chats/${chatId}/${memberId}`;
 
