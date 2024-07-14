@@ -5,20 +5,29 @@ import {
   Box,
   Button,
   Divider,
+  IconButton,
+  Menu,
+  MenuItem,
   Stack,
   Typography,
 } from "@mui/material";
 import { red } from "@mui/material/colors";
-import { Link, useParams } from "react-router-dom";
-import { useAuth } from "../../../../../Auth";
+import { Link } from "react-router-dom";
+import { useChatHeader } from "./useChatHeader";
 import { useStyle } from "./useStyle";
 
 export const ChatHeader = ({ chatData }: { chatData: any }) => {
-  const { user } = useAuth();
-  const { isGroupChat, users, groupTitle } = chatData;
-  const senderUser = users.find((item: any) => item._id !== user.userId);
-
-  const { id } = useParams();
+  const {
+    anchorEl,
+    open,
+    handleClick,
+    handleClose,
+    id,
+    isGroupChat,
+    groupTitle,
+    senderUser,
+    handleOnClickUnfriend,
+  } = useChatHeader({ chatData });
   const { callButton, profileButton } = useStyle();
 
   return (
@@ -92,7 +101,31 @@ export const ChatHeader = ({ chatData }: { chatData: any }) => {
             <Divider orientation="vertical" color="gray" />
           </Box>
           <Search />
-          <MoreHoriz />
+          <IconButton
+            id="basic-button"
+            aria-controls={open ? "basic-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? "true" : undefined}
+            onClick={handleClick}
+          >
+            <MoreHoriz />
+          </IconButton>
+          {!isGroupChat && (
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                "aria-labelledby": "basic-button",
+              }}
+            >
+              <MenuItem onClick={handleOnClickUnfriend}>
+                Clear all Chat
+              </MenuItem>
+              <MenuItem onClick={handleOnClickUnfriend}>Remove friend</MenuItem>
+            </Menu>
+          )}
         </Stack>
       </Stack>
     </Stack>
