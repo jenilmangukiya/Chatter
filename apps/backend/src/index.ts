@@ -50,7 +50,6 @@ io.use(async (socket, next) => {
 io.on("connection", (socket: any) => {
   const user = socket.user;
   userSocketIDs.set(user._id.toString(), socket.id);
-  console.log(userSocketIDs);
   console.log("a user connected");
 
   socket.on(

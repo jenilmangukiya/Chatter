@@ -9,7 +9,7 @@ export const useExploreItem = () => {
 
   const { mutate, isPending: isSendRequestPending } = useSendFriendRequest({
     onSuccess: (e) => {
-      console.log("e", e);
+      console.error("e", e);
       setSnackbarConfig({
         message: e.data.message,
         open: true,

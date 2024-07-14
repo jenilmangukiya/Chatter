@@ -370,10 +370,16 @@ export const getUser = asyncHandler(
       throw new ApiError(404, "User not found");
     }
 
-    const friendship_status = {
+    const friendship_status: {
+      incoming_request: boolean;
+      outgoing_request: boolean;
+      is_friend: boolean;
+      request_id: null | ObjectId;
+    } = {
       incoming_request: false,
       outgoing_request: false,
       is_friend: false,
+      request_id: null,
     };
 
     const requestsData = await Request.findOne({
@@ -389,15 +395,15 @@ export const getUser = asyncHandler(
       ],
     });
 
-    console.log("requestsData", requestsData);
-
     if (requestsData) {
       if (requestsData?.sender.toString() === req.user?._id.toString()) {
         friendship_status["outgoing_request"] = true;
+        friendship_status["request_id"] = requestsData?._id;
       } else if (
         requestsData?.receiver.toString() === req.user?._id.toString()
       ) {
         friendship_status["incoming_request"] = true;
+        friendship_status["request_id"] = requestsData?._id;
       }
     }
 
