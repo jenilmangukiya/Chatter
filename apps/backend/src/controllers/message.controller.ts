@@ -1,6 +1,7 @@
 import { Response } from "express";
 import { ObjectId } from "mongodb";
 import mongoose from "mongoose";
+import { Chat } from "../models/chat.model.js";
 import { ChatMember } from "../models/chatMember.model.js";
 import { Message } from "../models/message.model.js";
 import { ApiError } from "../utils/ApiError.js";
@@ -119,5 +120,28 @@ export const getMessages = asyncHandler(
     const userPaginated = await Message.aggregatePaginate(pipeline, options);
 
     res.status(200).json(new ApiResponse(200, userPaginated));
+  }
+);
+
+export const clearChatData = asyncHandler(
+  async (req: RequestExpress, res: Response) => {
+    const { chatId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(chatId))
+      throw new ApiError(404, "Invalid Chat");
+
+    const chat = await Chat.findById(chatId);
+
+    if (!chat) {
+      throw new ApiError(404, "Chat not found");
+    }
+
+    const deletedMessage = await Message.deleteMany({ chat: chatId });
+
+    if (!deletedMessage.deletedCount) {
+      throw new ApiError(400, "No messages to clear");
+    }
+
+    res.status(204).json(new ApiResponse(204, {}));
   }
 );
