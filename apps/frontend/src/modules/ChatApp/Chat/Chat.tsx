@@ -74,9 +74,9 @@ export const Chat = () => {
               );
             })}
           {!isChatMessagesLoading && hasNextPage && (
-            <div ref={observerTarget}>
-              <Stack alignItems={"center"}>Loading...</Stack>
-            </div>
+            <Stack alignItems={"center"} ref={observerTarget}>
+              Loading...
+            </Stack>
           )}
         </Stack>
         <SendChatActions
